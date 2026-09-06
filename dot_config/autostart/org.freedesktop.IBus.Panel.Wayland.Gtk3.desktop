@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=IBus Wayland
-Exec=ibus-daemon --type=wayland -drx
+Exec=ibus start --type wayland
 Type=Application
 NoDisplay=true
 OnlyShowIn=COSMIC;
