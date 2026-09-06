@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=IBus Wayland
+Exec=ibus-daemon --type=wayland -drx
+Type=Application
+NoDisplay=true
+OnlyShowIn=COSMIC;
