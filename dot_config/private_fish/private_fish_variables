@@ -1,4 +1,2 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --export XMODIFIERS:\x40im\x3dibus
-SETUVAR fish_user_paths:/home/johan/\x2elocal/bin

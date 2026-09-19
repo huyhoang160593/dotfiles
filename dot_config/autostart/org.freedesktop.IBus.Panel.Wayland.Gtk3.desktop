@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=IBus Wayland
-Exec=ibus start --type wayland
-Type=Application
-NoDisplay=true
-OnlyShowIn=COSMIC;
