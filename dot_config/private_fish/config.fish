@@ -27,3 +27,6 @@ if not set -q SSH_AUTH_SOCK
     eval (ssh-agent -c) > /dev/null
 end
 
+
+# ante
+fish_add_path /home/the99spuppycat/.ante/bin
