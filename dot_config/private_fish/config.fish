@@ -2,7 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 # Setup PATH
-fish_add_path ~/.local/bin
+fish_add_path -g ~/.local/bin
 
 # Setup abbr with exa to replace ls
 abbr -a ls eza
