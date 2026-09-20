@@ -1,4 +1,4 @@
-function appimage_update_icon --description 'Organize standalone icons generated from importing AppImages via AppManager into hicolor structure and rebuild system cache'
+function appimage_update_icon --description 'Sắp xếp icon từ AppImage về thư mục hicolor và cập nhật cache hệ thống'
     set -l base_icons "$HOME/.local/share/icons"
     set -l target_dir "$base_icons/hicolor/256x256/apps"
     set -l apps_dir "$HOME/.local/share/applications"

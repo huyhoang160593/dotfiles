@@ -1,0 +1,32 @@
+{
+  "model": "mimo-v2.5",
+  "provider": "xiaomi-mimo",
+  "system_prompt": null,
+  "append_system_prompt": null,
+  "tools": null,
+  "auto_memory": null,
+  "skills": null,
+  "include_skills": null,
+  "exclude_skills": null,
+  "session_save": null,
+  "permission_mode": null,
+  "short_prompt": null,
+  "model_effort": {
+    "mimo-v2.5": "high",
+    "openrouter/free": "min"
+  },
+  "theme": "Dark mode",
+  "has_completed_onboarding": true,
+  "ambient_thinking_phrase": null,
+  "ambient_prompt_suggestion": null,
+  "tips": null,
+  "group_tool_activity": null,
+  "auto_compact": null,
+  "channel": null,
+  "render_mode": "inline",
+  "status_line": null,
+  "provider_model": {
+    "openrouter": "openrouter/free",
+    "xiaomi-mimo": "mimo-v2.5"
+  }
+}
