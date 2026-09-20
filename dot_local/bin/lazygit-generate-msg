@@ -18,7 +18,7 @@ info()    { echo -e "${CYAN}ℹ $*${RESET}"; }
 # --- Configurable AI agent settings ---
 # Override via environment variables or edit these defaults.
 AI_CMD="${AI_CMD:-ante}"
-AI_FLAGS="${AI_FLAGS:---no-skills --no-session-save}"
+AI_FLAGS="${AI_FLAGS:---no-skills --no-session-save --output-format json --tools ''}"
 AI_PROMPT_FLAG="${AI_PROMPT_FLAG:--p}"
 
 PROMPT="Write a conventional commit message for the following git diff.
@@ -67,7 +67,7 @@ if [ -z "$DIFF" ]; then
 fi
 
 # shellcheck disable=SC2086
-MSG=$(echo "$DIFF" | $AI_CMD $AI_FLAGS --output-format json $AI_PROMPT_FLAG "$PROMPT" 2>/dev/null \
+MSG=$(echo "$DIFF" | $AI_CMD $AI_FLAGS $AI_PROMPT_FLAG "$PROMPT" 2>/dev/null \
   | jq -r 'select(.event.AgentMessage) | .event.AgentMessage' \
   | sed '/^```/d' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -v '^$')
 
