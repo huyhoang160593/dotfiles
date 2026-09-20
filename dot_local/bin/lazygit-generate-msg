@@ -1,6 +1,20 @@
 #!/bin/bash
 set -euo pipefail
 
+# --- Colors & helpers ---
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+error()   { echo -e "${RED}${BOLD}Error:${RESET} ${RED}$*${RESET}"; }
+warn()    { echo -e "${YELLOW}${BOLD}Warning:${RESET} ${YELLOW}$*${RESET}"; }
+success() { echo -e "${GREEN}${BOLD}$*${RESET}"; }
+info()    { echo -e "${CYAN}$*${RESET}"; }
+# --- End helpers ---
+
 # --- Configurable AI agent settings ---
 # Override via environment variables or edit these defaults.
 AI_CMD="${AI_CMD:-ante}"
@@ -21,14 +35,14 @@ Output ONLY the commit message, nothing else. No explanation, no markdown."
 
 # Check AI agent availability
 if ! command -v "$AI_CMD" &>/dev/null; then
-  echo "Error: '$AI_CMD' not found in PATH."
-  echo "Install it or set AI_CMD to your AI agent command."
+  error "'$AI_CMD' not found in PATH."
+  info "Install it or set AI_CMD to your AI agent command."
   exit 1
 fi
 
 DIFF=$(git diff --cached)
 if [ -z "$DIFF" ]; then
-  echo "No staged changes to commit."
+  warn "No staged changes to commit."
   exit 1
 fi
 
@@ -36,8 +50,9 @@ fi
 MSG=$(echo "$DIFF" | $AI_CMD $AI_FLAGS $AI_PROMPT_FLAG "$PROMPT" 2>/dev/null | tail -1)
 
 if [ -z "$MSG" ]; then
-  echo "Failed to generate commit message."
+  error "Failed to generate commit message."
   exit 1
 fi
 
+success "Commit message: $MSG"
 git commit -m "$MSG"
