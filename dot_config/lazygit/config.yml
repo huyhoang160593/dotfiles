@@ -6,7 +6,7 @@ customCommands:
         context: 'files'
         description: 'Edit before commit'
         command: 'bash $HOME/.local/bin/lazygit-generate-msg edit'
-        subprocess: true
+        output: terminal
       - key: 'd'
         context: 'files'
         description: 'Commit directly'

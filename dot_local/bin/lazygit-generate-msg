@@ -96,8 +96,10 @@ case "$MODE" in
     fi
     ;;
   edit|"")
-    success "Commit message: $MSG"
-    git commit -m "$MSG"
+    TMPFILE=$(mktemp /tmp/lazygit_msg_XXXXXX.txt)
+    echo "$MSG" > "$TMPFILE"
+    git commit -F "$TMPFILE"
+    rm -f "$TMPFILE"
     ;;
   *)
     error "Unknown mode: $MODE"
