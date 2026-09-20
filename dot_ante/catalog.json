@@ -12,17 +12,21 @@
       "preferred_models": [
         {
           "id": "mimo-v2.5-pro",
-          "display_name": "MiMo V2.5 Pro",
-          "context_window": 1048576,
-          "max_output_tokens": 131072,
-          "supports_reasoning": true
+          "description": "MiMo V2.5 Pro — reasoning model with vision",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high", "max"],
+          "support_vision": true
         },
         {
           "id": "mimo-v2.5",
-          "display_name": "MiMo V2.5 Omni",
-          "context_window": 1048576,
-          "max_output_tokens": 131072,
-          "supports_reasoning": true
+          "description": "MiMo V2.5 Omni — multimodal model with vision",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": true
         }
       ]
     },
@@ -38,27 +42,23 @@
       "preferred_models": [
         {
           "id": "mimo-v2.5-pro",
-          "display_name": "MiMo V2.5 Pro",
-          "context_window": 1048576,
-          "max_output_tokens": 131072,
-          "supports_reasoning": true
+          "description": "MiMo V2.5 Pro — reasoning model with vision",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high", "max"],
+          "support_vision": true
         },
         {
           "id": "mimo-v2.5",
-          "display_name": "MiMo V2.5 Omni",
-          "context_window": 1048576,
-          "max_output_tokens": 131072,
-          "supports_reasoning": true
+          "description": "MiMo V2.5 Omni — multimodal model with vision",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": true
         }
       ]
-    }
-  },
-  "models": {
-    "mimo-v2.5-pro": {
-      "supported_efforts": ["low", "medium", "high", "max"]
-    },
-    "mimo-v2.5": {
-      "supported_efforts": ["low", "medium", "high"]
     }
   }
 }

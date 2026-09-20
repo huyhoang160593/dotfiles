@@ -17,7 +17,8 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "eza:eza (ls replacement)" \
         "tldr:tealdeer (tldr client)" \
         "bat:bat (cat replacement)" \
-        "lazygit:lazygit (git TUI)"
+        "lazygit:lazygit (git TUI)" \
+        "fastfetch:fastfetch (system info)"
 
     set missing
     set found 0

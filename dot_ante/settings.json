@@ -24,6 +24,10 @@
   "channel": null,
   "render_mode": "inline",
   "status_line": null,
+  "status_line_command": {
+    "command": "~/.ante/statusline.sh",
+    "padding": 1
+  },
   "provider_model": {
     "xiaomi-mimo": "mimo-v2.5"
   }

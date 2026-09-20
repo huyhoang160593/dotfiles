@@ -76,5 +76,8 @@ TUI cho git. Tích hợp với Ante qua custom command menu (`Ctrl+A`): gen comm
 **fzf / zoxide / eza / tealdeer / bat**:
 CLI tiện ích: fuzzy finder, nhảy thư mục, ls thay thế hiện đại, tóm tắt man page, cat với syntax highlighting.
 
+**fastfetch**:
+Công cụ hiển thị thông tin hệ thống khi mở shell (thay thế neofetch, nhanh hơn). Dùng preset `examples/31.jsonc` từ `/usr/share/fastfetch/presets/`. Chạy khi interactive session bắt đầu.
+
 ---
 _Nên tránh_: "Alacritty" (đã thay bằng Ghostty), "Firefox" (đã thay bằng Helium), "SDDM" (đã thay bằng Noctalia Greeter), "cachyos-fish-config" (xung đột với chezmoi).
