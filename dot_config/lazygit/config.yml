@@ -1,0 +1,7 @@
+customCommands:
+  - key: '<c-a>'
+    context: 'files'
+    description: 'Generate commit message with AI'
+    loadingText: 'Generating commit message...'
+    command: 'bash $HOME/.local/bin/lazygit-generate-msg'
+    subprocess: true

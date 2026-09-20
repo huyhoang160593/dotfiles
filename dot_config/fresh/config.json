@@ -1,0 +1,7 @@
+{
+  "theme": "builtin://dracula",
+  "file_explorer": {
+    "show_hidden": true,
+    "show_gitignored": true
+  }
+}

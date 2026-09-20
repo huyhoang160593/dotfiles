@@ -67,6 +67,9 @@ Công cụ chuyển file qua mạng local. Cần rule firewall `ufw` để cho p
 **Ante**:
 AI agent dùng cho workflow phát triển.
 
+**lazygit**:
+TUI cho git. Tích hợp với Ante qua custom command: generate commit message từ staged diff → mở editor để review → commit. Custom command gọi fish function `lazygit_generate_msg`, fish function delegate tới script `~/.local/bin/lazygit-generate-msg`.
+
 **fzf / zoxide / eza / tealdeer / bat**:
 CLI tiện ích: fuzzy finder, nhảy thư mục, ls thay thế hiện đại, tóm tắt man page, cat với syntax highlighting.
 

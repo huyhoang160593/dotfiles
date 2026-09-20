@@ -1,0 +1,27 @@
+#!/bin/bash
+set -euo pipefail
+
+DIFF=$(git diff --cached)
+if [ -z "$DIFF" ]; then
+  echo "No staged changes to commit."
+  exit 1
+fi
+
+MSG=$(echo "$DIFF" | ante --no-skills --no-session-save -p \
+"Write a conventional commit message for the following git diff.
+
+Format rules:
+- Type: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+- Scope: optional, in parentheses after type
+- Subject: imperative mood, lowercase, no period, max 72 chars
+- Body: optional, wrapped at 72 chars
+- Footer: optional, for BREAKING CHANGE or issue references
+
+Output ONLY the commit message, nothing else. No explanation, no markdown." 2>/dev/null | tail -1)
+
+if [ -z "$MSG" ]; then
+  echo "Failed to generate commit message."
+  exit 1
+fi
+
+git commit -m "$MSG"
