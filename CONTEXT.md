@@ -5,7 +5,10 @@ Repo dotfiles cá nhân quản lý bằng **chezmoi**, chạy trên **CachyOS** 
 ## Thuật ngữ
 
 **chezmoi**:
-Trình quản lý dotfile giữ source of truth trong repo git và áp dụng template lên thư mục home. Source nằm tại `~/.local/share/chezmoi`.
+Trình quản lý dotfile giữ source of truth trong repo git và áp dụng template lên thư mục home. Source nằm tại `~/.local/share/chezmoi`. Hỗ trợ Go template cho tất cả file (`.tmpl`), bao gồm `.chezmoiignore`.
+
+**`.chezmoiignore`**:
+Danh sách file/folder bị bỏ qua khi chezmoi sync ra home. Pattern so sánh với đường dẫn đích (`~/docs`), không phải đường dẫn nguồn. Hỗ trợ Go template conditional và `#` comment.
 
 **CachyOS**:
 Linux distribution dựa trên Arch, tối ưu hiệu năng. Ship config fish mặc định xung đột với config do chezmoi quản lý; phải bỏ chọn khi cài đặt.

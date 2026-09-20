@@ -1,4 +1,4 @@
-{{- /* Không sync docs/repo files ra home */ -}}
+# Không sync docs/repo files ra home
 README.md
 CONTEXT.md
 AGENTS.md
@@ -6,23 +6,25 @@ AGENTS.md
 .scratch
 docs
 
-{{- /* Ignore WM/DE configs when the corresponding binary is not installed */ -}}
+# Không sync secrets/auth — API keys etc.
+.ante/auth
 
+# Ignore WM/DE configs when the corresponding binary is not installed
 {{- if ne .chezmoi.os "linux" }}
-  {{- /* Non-Linux: ignore all WM-specific configs */ -}}
+# Non-Linux: ignore all WM-specific configs
 .config/mango
 .config/noctalia
 
 {{- else }}
-  {{- /* Linux: check each tool individually */ -}}
-  {{- $hasMango := eq (trim (output "bash" "-c" "which mango 2>/dev/null || echo no")) "no" | not -}}
-  {{- $hasNoctalia := eq (trim (output "bash" "-c" "which noctalia 2>/dev/null || echo no")) "no" | not -}}
+# Linux: check each tool individually
+{{- $hasMango := eq (trim (output "bash" "-c" "which mango 2>/dev/null || echo no")) "no" | not -}}
+{{- $hasNoctalia := eq (trim (output "bash" "-c" "which noctalia 2>/dev/null || echo no")) "no" | not -}}
 
-  {{- if not $hasMango }}
+{{- if not $hasMango }}
 .config/mango
-  {{- end }}
+{{- end }}
 
-  {{- if not $hasNoctalia }}
+{{- if not $hasNoctalia }}
 .config/noctalia
-  {{- end }}
+{{- end }}
 {{- end }}

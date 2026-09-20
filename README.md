@@ -29,6 +29,22 @@ Repo này dùng chezmoi quản lý dotfile và thiết lập environment trên C
 | Check status | `chezmoi status` |
 | Push thay đổi lên repo | `chezmoi cd && git add -A && git commit -m "..." && git push` |
 
+### Viết template chezmoi đúng cách
+
+Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử lý như Go template. Tham khảo: [chezmoi docs — special files](https://www.chezmoi.io/reference/special-files/)
+
+**`.chezmoiignore`** — danh sách file/folder không đồng bộ ra home:
+- Pattern so sánh với **đường dẫn đích** (`~/docs`), không phải đường dẫn nguồn
+- Go template chỉ cần dùng khi cần điều kiện (ví dụ: ignore theo hệ điều hành, theo phần mềm đã cài...)
+- Nên dùng `#` cho comment trong `.chezmoiignore` (an toàn, không gây lỗi trim)
+- Kiểm tra kết quả render: `cat .chezmoiignore.tmpl | chezmoi execute-template`
+- Xem danh sách file bị bỏ qua: `chezmoi ignored`
+
+**Mẹo viết Go template chezmoi (áp dụng cho tất cả `.tmpl`):**
+- `{{- ... -}}` xóa khoảng trắng 2 đầu dòng — useful cho code inline, nhưng **cẩn thận**: nó cũng xóa newline, dễ làm 2 dòng content dính vào nhau
+- Comment: dùng `#` cho tất cả file template — đơn giản, an toàn, không gây lỗi trim
+- Các hàm template hay dùng: `output`, `trim`, `eq`, `ne`, `not`, `if/else/end` — xem thêm: [template functions](https://www.chezmoi.io/reference/templates/functions/)
+
 ---
 
 ## Ghi chú cài đặt CachyOS

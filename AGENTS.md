@@ -11,3 +11,7 @@ Five canonical roles used as-is: `needs-triage`, `needs-info`, `ready-for-agent`
 ### Domain docs
 
 Single-context layout: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+### Post-task: chezmoi apply
+
+After completing any task that modifies files in this repo, run `chezmoi diff` to check for changes. If there are changes, run `chezmoi apply` to sync them into the system.
