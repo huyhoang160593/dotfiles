@@ -211,4 +211,26 @@ export AI_PROMPT_FLAG=""
 
 ---
 
+## Font
+
+| Font | Mô tả | Link |
+|------|-------|------|
+| **Maple Mono** ⭐ | Font chính — monospace, round corner, ligatures, Nerd-Font icons | [subframe7536/maple-font](https://github.com/subframe7536/maple-font) |
+| JetBrains Mono | Typeface cho developer,ligatures | [JetBrains/JetBrainsMono](https://github.com/JetBrains/JetBrainsMono) |
+| Cascadia Code | Monospace với ligatures, thiết kế cho Windows Terminal | [microsoft/cascadia-code](https://github.com/microsoft/cascadia-code) |
+| FiraCode | Monospace miễn phí với programming ligatures | [tonsky/FiraCode](https://github.com/tonsky/FiraCode) |
+| Monaspace | Superfamily fonts cho code (5 style: Antrova, Argon, Xenon, Neon, Radon) | [githubnext/monaspace](https://github.com/githubnext/monaspace) |
+| Intel One Mono | Monospace từ Intel | [intel/intel-one-mono](https://github.com/intel/intel-one-mono) |
+| Monocraft | Monospace lấy cảm hứng từ Minecraft typeface | [IdreesInc/Monocraft](https://github.com/IdreesInc/Monocraft) |
+| Miracode | Phiên bản vector-y sắc nét của Monocraft | [IdreesInc/Miracode](https://github.com/IdreesInc/Miracode) |
+| Comic Mono | Monospace dễ đọc, phong cách Comic Sans | [dtinth/comic-mono-font](https://github.com/dtinth/comic-mono-font) |
+| Mona Sans | Variable font từ GitHub | [github/mona-sans](https://github.com/github/mona-sans) |
+| Operator Code | Monospace với programming ligatures | [hanbalahmed/OperatorCode](https://github.com/hanbalahmed/OperatorCode) |
+
+> **Nerd Fonts**: Tập hợp icon font cho terminal — https://www.nerdfonts.com/
+
+> **Danh sách đầy đủ**: https://github.com/stars/huyhoang160593/lists/favoritefonts
+
+---
+
 Xem thêm: [CONTEXT.md](CONTEXT.md), [docs/adr](docs/adr/)
