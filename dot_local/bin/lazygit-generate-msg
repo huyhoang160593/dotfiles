@@ -33,6 +33,10 @@ Format rules:
 Output ONLY the commit message, nothing else. No explanation, no markdown."
 # --- End config ---
 
+# --- Mode ---
+MODE="${1:-edit}"
+# --- End mode ---
+
 # Check AI agent availability
 if ! command -v "$AI_CMD" &>/dev/null; then
   error "'$AI_CMD' not found in PATH."
@@ -54,5 +58,34 @@ if [ -z "$MSG" ]; then
   exit 1
 fi
 
-success "Commit message: $MSG"
-git commit -m "$MSG"
+case "$MODE" in
+  direct)
+    success "Committing: $MSG"
+    git commit -m "$MSG"
+    ;;
+  clipboard)
+    if command -v wl-copy &>/dev/null; then
+      echo -n "$MSG" | wl-copy
+      success "Copied to clipboard: $MSG"
+    elif command -v xclip &>/dev/null; then
+      echo -n "$MSG" | xclip -selection clipboard
+      success "Copied to clipboard: $MSG"
+    elif command -v pbcopy &>/dev/null; then
+      echo -n "$MSG" | pbcopy
+      success "Copied to clipboard: $MSG"
+    else
+      error "No clipboard tool found (wl-copy, xclip, pbcopy)."
+      info "Message: $MSG"
+      exit 1
+    fi
+    ;;
+  edit|"")
+    success "Commit message: $MSG"
+    git commit -m "$MSG"
+    ;;
+  *)
+    error "Unknown mode: $MODE"
+    info "Usage: lazygit-generate-msg [edit|direct|clipboard]"
+    exit 1
+    ;;
+esac

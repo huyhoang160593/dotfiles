@@ -1,7 +1,20 @@
 customCommands:
   - key: '<c-a>'
-    context: 'files'
-    description: 'Generate commit message with AI'
-    loadingText: 'Generating commit message...'
-    command: 'bash $HOME/.local/bin/lazygit-generate-msg'
-    subprocess: true
+    description: 'AI Commit Message'
+    commandMenu:
+      - key: 'e'
+        context: 'files'
+        description: 'Edit before commit'
+        command: 'bash $HOME/.local/bin/lazygit-generate-msg edit'
+        subprocess: true
+      - key: 'd'
+        context: 'files'
+        description: 'Commit directly'
+        command: 'bash $HOME/.local/bin/lazygit-generate-msg direct'
+        subprocess: true
+      - key: 'c'
+        context: 'files'
+        description: 'Copy to clipboard'
+        command: 'bash $HOME/.local/bin/lazygit-generate-msg clipboard'
+        output: popup
+        outputTitle: 'AI Commit Message'
