@@ -9,10 +9,10 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 RESET='\033[0m'
 
-error()   { echo -e "${RED}${BOLD}Error:${RESET} ${RED}$*${RESET}"; }
-warn()    { echo -e "${YELLOW}${BOLD}Warning:${RESET} ${YELLOW}$*${RESET}"; }
-success() { echo -e "${GREEN}${BOLD}$*${RESET}"; }
-info()    { echo -e "${CYAN}$*${RESET}"; }
+error()   { echo -e "${RED}${BOLD}✗ $*${RESET}"; }
+warn()    { echo -e "${YELLOW}${BOLD}⚠ $*${RESET}"; }
+success() { echo -e "${GREEN}${BOLD}✓ $*${RESET}"; }
+info()    { echo -e "${CYAN}ℹ $*${RESET}"; }
 # --- End helpers ---
 
 # --- Configurable AI agent settings ---
@@ -79,6 +79,7 @@ fi
 case "$MODE" in
   direct)
     info "Committing..."
+    echo
     GIT_OUT=$(git commit -m "$MSG" 2>&1)
     if [ $? -eq 0 ]; then
       success "$GIT_OUT"
@@ -90,12 +91,15 @@ case "$MODE" in
     ;;
   push)
     info "Committing..."
+    echo
     GIT_OUT=$(git commit -m "$MSG" 2>&1)
     if [ $? -eq 0 ]; then
       success "$GIT_OUT"
+      echo
       BRANCH=$(git branch --show-current)
       REMOTE=$(git remote | head -1)
       info "Pushing to $REMOTE/$BRANCH..."
+      echo
       PUSH_OUT=$(git push 2>&1)
       if [ $? -eq 0 ]; then
         if [ -n "$PUSH_OUT" ]; then
