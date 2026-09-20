@@ -6,6 +6,9 @@ end
 fish_add_path -g ~/.local/bin
 fish_add_path -g ~/.ante/bin
 
+# Default browser for xdg-open
+set -gx BROWSER helium
+
 # Setup abbr with eza to replace ls
 abbr -a ls eza --icons=auto
 abbr -a ll eza -lhF --git --icons=auto

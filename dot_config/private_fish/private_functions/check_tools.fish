@@ -1,7 +1,7 @@
 function check_tools --description 'Kiểm tra các tool cần thiết đã cài đặt chưa'
     set tools \
-        "ghostty:Ghostty (terminal)" \
-        "helium:Helium (trình duyệt)" \
+        "ghostty:Ghostty (terminal - AppImage)" \
+        "helium:Helium (browser - AppImage)" \
         "fish:Fish (shell)" \
         "starship:Starship (prompt)" \
         "stellar:Stellar (quản lý theme)" \
