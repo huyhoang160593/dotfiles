@@ -79,6 +79,16 @@ case "$MODE" in
     success "Committing: $MSG"
     git commit -m "$MSG"
     ;;
+  push)
+    success "Committing: $MSG"
+    git commit -m "$MSG"
+    info "Pushing to remote..."
+    if git push 2>&1; then
+      success "Pushed to remote."
+    else
+      warn "Push failed. Commit was created locally."
+    fi
+    ;;
   clipboard)
     if command -v wl-copy &>/dev/null; then
       echo -n "$MSG" | wl-copy

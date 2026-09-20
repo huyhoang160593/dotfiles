@@ -2,15 +2,15 @@ customCommands:
   - key: '<c-a>'
     description: 'AI Commit Message'
     commandMenu:
-      - key: 'e'
-        context: 'files'
-        description: 'Edit before commit'
-        command: 'bash $HOME/.local/bin/lazygit-generate-msg edit'
-        output: terminal
       - key: 'd'
         context: 'files'
         description: 'Commit directly'
         command: 'bash $HOME/.local/bin/lazygit-generate-msg direct'
+        subprocess: true
+      - key: 'p'
+        context: 'files'
+        description: 'Commit and push'
+        command: 'bash $HOME/.local/bin/lazygit-generate-msg push'
         subprocess: true
       - key: 'c'
         context: 'files'
