@@ -4,8 +4,7 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "helium:Helium (trình duyệt)" \
         "fish:Fish (shell)" \
         "starship:Starship (prompt)" \
-        "stella:Stella (quản lý theme)" \
-        "mangowm:mangowm (WM)" \
+        "stellar:Stellar (quản lý theme)" \
         "noctalia:Noctalia (desktop shell)" \
         "fresh:Fresh (TUI dashboard)" \
         "zellij:Zellij (session manager)" \
@@ -17,7 +16,8 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "zoxide:zoxide (dir jumper)" \
         "eza:eza (ls replacement)" \
         "tldr:tealdeer (tldr client)" \
-        "bat:bat (cat replacement)"
+        "bat:bat (cat replacement)" \
+        "lazygit:lazygit (git TUI)"
 
     set missing
     set found 0

@@ -1,1 +1,28 @@
-.config/autostart/org.freedesktop.IBus.Panel.Wayland.Gtk3.desktop
+{{- /* Không sync docs/repo files ra home */ -}}
+README.md
+CONTEXT.md
+AGENTS.md
+.gitignore
+.scratch
+docs
+
+{{- /* Ignore WM/DE configs when the corresponding binary is not installed */ -}}
+
+{{- if ne .chezmoi.os "linux" }}
+  {{- /* Non-Linux: ignore all WM-specific configs */ -}}
+.config/mango
+.config/noctalia
+
+{{- else }}
+  {{- /* Linux: check each tool individually */ -}}
+  {{- $hasMango := eq (trim (output "bash" "-c" "which mango 2>/dev/null || echo no")) "no" | not -}}
+  {{- $hasNoctalia := eq (trim (output "bash" "-c" "which noctalia 2>/dev/null || echo no")) "no" | not -}}
+
+  {{- if not $hasMango }}
+.config/mango
+  {{- end }}
+
+  {{- if not $hasNoctalia }}
+.config/noctalia
+  {{- end }}
+{{- end }}

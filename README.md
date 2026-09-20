@@ -5,8 +5,29 @@ Repo này dùng chezmoi quản lý dotfile và thiết lập environment trên C
 ## Yêu cầu cài đặt theo thứ tự
 1. CachyOS (xem ghi chú bên dưới)
 2. `fish` + `chezmoi` — shell & quản lý dotfile
-3. Áp dụng chezmoi: `chezmoi init --apply huyhoang160593/dotfiles`
-4. Các bước sửa sau cài đặt (xem từng phần bên dưới)
+3. Đặt tên & email git (dùng email private để tránh lộ):
+   ```bash
+   git config --global user.name "The99sPuppycat"
+   git config --global user.email "41776348+huyhoang160593@users.noreply.github.com"
+   ```
+4. Áp dụng chezmoi: `chezmoi init --apply huyhoang160593/dotfiles`
+5. Các bước sửa sau cài đặt (xem từng phần bên dưới)
+
+---
+
+## Cẩm nang chezmoi
+
+| Thao tác | Lệnh |
+|---|---|
+| Khởi tạo & áp dụng | `chezmoi init --apply huyhoang160593/dotfiles` |
+| Sync sau khi sửa file nguồn | `chezmoi apply` |
+| Xem trước thay đổi | `chezmoi diff` |
+| Xem file nào chezmoi quản lý | `chezmoi managed` |
+| Chỉnh sửa file chezmoi quản lý | `chezmoi edit <file>` |
+| Thêm file mới vào repo | `chezmoi add <file>` |
+| Gỡ file khỏi chezmoi | `chezmoi forget <file>` |
+| Check status | `chezmoi status` |
+| Push thay đổi lên repo | `chezmoi cd && git add -A && git commit -m "..." && git push` |
 
 ---
 
@@ -19,7 +40,7 @@ Repo này dùng chezmoi quản lý dotfile và thiết lập environment trên C
 ### Window Manager: mangowm
 - **Đã chọn**: mangowm
 - **Đã bỏ chọn**: ❌ SDDM (login manager) — dùng Noctalia Greeter thay thế để đồng bộ giao diện
-- **Sửa sau cài**: Chỉnh `~/.config/mango/cfg/env.conf` để set `QT_QPA_PLATFORMTHEME=qt6ct` và `QT_QPA_PLATFORMTHEME_QT6=qt6ct`
+- **Env vars**: QT_QPA_PLATFORMTHEME, QT_QPA_PLATFORMTHEME_QT6, PATH — đã cấu hình sẵn trong `~/.config/mango/cfg/env.conf` (chezmoi sync)
 
 ### Validate Config Noctalia
 - Config: `~/.config/noctalia/*.toml` (định dạng TOML)
@@ -40,7 +61,7 @@ Repo này dùng chezmoi quản lý dotfile và thiết lập environment trên C
 | Terminal | Ghostty | Terminal emulator nhanh, hỗ trợ GPU rendering, minimalist UI | Thay thế Alacritty |
 | Trình duyệt | Helium | Trình duyệt nhẹ, chạy dạng AppImage | Quản lý bởi AppManager |
 | Shell | fish | Shell chính; tất cả function viết cho fish, không phải bash | |
-| Prompt | Starship + Stella (quản lý theme) | Prompt đa nền tảng; Stella quản lý theme | Bảng màu rose-pine; áp dụng với `stella` |
+| Prompt | Starship + Stellar (quản lý theme) | Prompt đa nền tảng; Stellar quản lý theme | Bảng màu rose-pine; áp dụng với `stellar` |
 | WM | mangowm | Wayland compositor | Config trong `~/.config/mango/cfg/` |
 | Desktop Shell | Noctalia | Thanh trạng thái, panel, launcher, thông báo, màn hình khóa | |
 | Greeter | Noctalia Greeter | Màn hình đăng nhập (không dùng SDDM) | |
@@ -48,7 +69,8 @@ Repo này dùng chezmoi quản lý dotfile và thiết lập environment trên C
 | Quản lý session | Zellij | Tab, pane, layout cho terminal | |
 | AI | Ante | Lightweight, ít lỗi hơn Claude Code/Codex | |
 | Quản lý AppImage | AppManager | Cài đặt và quản lý AppImage | Dùng `appimage_update_icon` để sửa icon |
-| CLI tiện ích | fzf, zoxide, eza, tealdeer, bat | Fuzzy finder, nhảy thư mục, ls replacement, tldr, cat replacement | eza dùng `--icons` |
+| CLI tiện ích | fzf, zoxide, eza, tealdeer, bat | Fuzzy finder, nhảy thư mục, ls replacement, tldr, cat replacement | eza dùng `--icons=auto` |
+| Git TUI | lazygit | Giao diện terminal cho git | Commit, diff, stash, merge trực quan |
 | Đồng bộ web | Koonde + Proton Pass | Bookmark, mật khẩu | |
 | Firewall | ufw | Mở port cho LocalSend | Xem phần ufw bên dưới |
 
@@ -79,18 +101,23 @@ Repo này dùng chezmoi quản lý dotfile và thiết lập environment trên C
   Hoặc script tự chạy khi cài AppImage mới qua AppManager.
 
 ### Starship hiển thị prompt mặc định
-- **Sự cố**: Starship prompt chưa được áp dụng theme stella.
+- **Sự cố**: Starship prompt chưa được áp dụng theme stellar.
 - **Cách sửa**:
   ```fish
-  stella apply rose-pine@1.0  # hoặc theme của bạn
+  stellar apply rose-pine@1.0  # hoặc theme của bạn
   exec fish  # tải lại
   ```
 
 ---
 
-## Biến môi trường cần kiểm tra
-- [ ] `QT_QPA_PLATFORMTHEME=qt6ct` trong mangowm env.conf
-- [ ] `QT_QPA_PLATFORMTHEME_QT6=qt6ct` trong mangowm env.conf
+## Biến môi trường (mangowm env.conf)
+Tất cả env vars được quản lý tại `~/.config/mango/cfg/env.conf` (chezmoi sync):
+```
+env = QT_QPA_PLATFORMTHEME,qt6ct
+env = QT_QPA_PLATFORMTHEME_QT6,qt6ct
+env = PATH,~/.local/bin:~/.ante/bin:/usr/local/bin:/usr/bin
+```
+> **Lưu ý**: mangowm mở rộng `~` nhưng **không** mở rộng `$HOME`.
 
 ---
 
@@ -109,10 +136,14 @@ sudo ufw status verbose  # kiểm tra rule đã được thêm
 
 ---
 
-## TODO / Backlog
-- [x] Viết `CONTEXT.md` glossary
-- [x] Viết `docs/adr/0001-chezmoi-fish-mangowm-on-cachyos.md`
-- [x] Viết document ufw firewall rule cho LocalSend (xem bên trên)
+## Fish custom functions
+
+Hai function fish do chezmoi quản lý, đặt tại `~/.config/fish/private_functions/`:
+
+| Function | Mô tả | Cách dùng |
+|---|---|---|
+| `appimage_update_icon` | Di chuyển icon PNG từ `~/.local/share/icons/` về `hicolor/256x256/apps/`, cập nhật GTK icon cache & desktop database | `appimage_update_icon` |
+| `check_tools` | Kiểm tra tất cả tool trong bộ công cụ đã cài đặt chưa, liệt kê cái còn thiếu | `check_tools` |
 
 ---
 

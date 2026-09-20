@@ -6,14 +6,14 @@ end
 fish_add_path -g ~/.local/bin
 fish_add_path -g ~/.ante/bin
 
-# Setup abbr with exa to replace ls
-abbr -a ls eza --icons
-abbr -a ll eza -lbF --git --icons
-abbr -a llm eza -lbGd --git --sort=modified --icons
-abbr -a la eza -lbhHigUmuSa --time-style=long-iso --git --color-scale --icons
-abbr -a lx eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale --icons
-abbr -a lS eza -1 --icons
-abbr -a lt eza --tree --level=2 --icons
+# Setup abbr with eza to replace ls
+abbr -a ls eza --icons=auto
+abbr -a ll eza -lhF --git --icons=auto
+abbr -a llm eza -lhdG --git -s=modified --icons=auto
+abbr -a la eza -lAhHigUmu --time-style=long-iso --git --color-scale --icons=auto
+abbr -a lx eza -lAhHigUmu@ --time-style=long-iso --git --color-scale --icons=auto
+abbr -a lS eza -1 --icons=auto
+abbr -a lt eza -TL=2 --icons=auto
 
 # Start starship
 starship init fish | source
