@@ -138,12 +138,76 @@ sudo ufw status verbose  # kiểm tra rule đã được thêm
 
 ## Fish custom functions
 
-Hai function fish do chezmoi quản lý, đặt tại `~/.config/fish/private_functions/`:
+Các function fish do chezmoi quản lý, đặt tại `~/.config/fish/private_functions/`:
 
 | Function | Mô tả | Cách dùng |
 |---|---|---|
 | `appimage_update_icon` | Di chuyển icon PNG từ `~/.local/share/icons/` về `hicolor/256x256/apps/`, cập nhật GTK icon cache & desktop database | `appimage_update_icon` |
 | `check_tools` | Kiểm tra tất cả tool trong bộ công cụ đã cài đặt chưa, liệt kê cái còn thiếu | `check_tools` |
+| `lazygit_generate_msg` | Wrapper cho script AI commit message, delegate tới `~/.local/bin/lazygit-generate-msg` | `lazygit_generate_msg [direct\|push\|clipboard\|undo]` |
+
+---
+
+## lazygit — AI Commit Message
+
+Tích hợp Ante (AI agent) với lazygit để generate commit message từ staged diff.
+
+### Cách dùng
+
+Trong lazygit TUI, nhấn **`Ctrl+A`** để mở menu:
+
+| Phím | Chế độ | Mô tả |
+|------|--------|-------|
+| `d` | Direct | Gen message → commit thẳng |
+| `p` | Push | Gen message → commit → push lên remote |
+| `c` | Clipboard | Gen message → copy vào clipboard (paste tay vào editor) |
+| `u` | Undo | `git reset --soft HEAD~1` (giữ changes staged) |
+
+### Cấu trúc file
+
+```
+~/.config/lazygit/config.yml          ← lazygit config (custom command menu)
+~/.local/bin/lazygit-generate-msg     ← bash script (bridge logic)
+~/.config/fish/functions/lazygit_generate_msg.fish  ← fish wrapper
+```
+
+### Cấu hình AI agent
+
+Script hỗ trợ đổi AI agent qua environment variables:
+
+```bash
+AI_CMD="ante"                          # Tên command (default: ante)
+AI_FLAGS="--no-skills --no-session-save --output-format json --tools ''"
+AI_PROMPT_FLAG="-p"                    # Cờ truyền prompt
+```
+
+Ví dụ đổi sang tool khác:
+```bash
+export AI_CMD="claude"
+export AI_FLAGS="--print"
+export AI_PROMPT_FLAG=""
+```
+
+### Yêu cầu
+
+- `jq` — parse JSON output từ Ante
+- AI agent trong PATH (mặc định: `ante`)
+- Clipboard tool cho chế độ copy: `wl-copy` (Wayland), `xclip` (X11), hoặc `pbcopy` (macOS)
+
+### Limitations
+
+- **Không thể mở editor từ custom command**: lazygit custom command không thể inject message vào commit editor. Dùng clipboard mode nếu muốn review trước khi commit.
+- **Chỉ staged changes**: Script dùng `git diff --cached`. Phải stage file trước khi trigger.
+- **`--tools ''`**: AI agent chạy mà không có tool nào — chỉ đọc diff từ stdin và output text.
+
+### Nguồn tham khảo
+
+- [lazygit Custom Commands](https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_Command_Keybindings.md)
+- [lazygit Custom Commands Compendium](https://github.com/jesseduffield/lazygit/wiki/Custom-Commands-Compendium)
+- [Discussion #4100](https://github.com/jesseduffield/lazygit/discussions/4100): shell-ask integration
+- [Discussion #4666](https://github.com/jesseduffield/lazygit/discussions/4666): Lumen integration
+- [Issue #5744](https://github.com/jesseduffield/lazygit/issues/5744): Built-in Copilot commit message (đã đóng)
+- [Discussion #5963](https://github.com/jesseduffield/lazygit/discussions/5963): AI commit message fork
 
 ---
 
