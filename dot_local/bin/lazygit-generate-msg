@@ -34,7 +34,7 @@ Output ONLY the commit message, nothing else. No explanation, no markdown."
 # --- End config ---
 
 # --- Mode ---
-MODE="${1:-edit}"
+MODE="${1:-direct}"
 # --- End mode ---
 
 # Check dependencies
@@ -52,9 +52,11 @@ fi
 
 # Handle undo separately (no diff needed)
 if [ "$MODE" = "undo" ]; then
+  info "Undoing last commit..."
+  LAST_HASH=$(git log -1 --pretty=%h)
   LAST_MSG=$(git log -1 --pretty=%s)
   git reset --soft HEAD~1
-  success "Undid last commit: $LAST_MSG"
+  success "Undid [$LAST_HASH] $LAST_MSG (changes staged)"
   exit 0
 fi
 
@@ -76,44 +78,68 @@ fi
 
 case "$MODE" in
   direct)
-    success "Committing: $MSG"
-    git commit -m "$MSG"
-    ;;
-  push)
-    success "Committing: $MSG"
-    git commit -m "$MSG"
-    info "Pushing to remote..."
-    if git push 2>&1; then
-      success "Pushed to remote."
+    info "Committing..."
+    GIT_OUT=$(git commit -m "$MSG" 2>&1)
+    if [ $? -eq 0 ]; then
+      success "$GIT_OUT"
     else
-      warn "Push failed. Commit was created locally."
-    fi
-    ;;
-  clipboard)
-    if command -v wl-copy &>/dev/null; then
-      echo -n "$MSG" | wl-copy
-      success "Copied to clipboard: $MSG"
-    elif command -v xclip &>/dev/null; then
-      echo -n "$MSG" | xclip -selection clipboard
-      success "Copied to clipboard: $MSG"
-    elif command -v pbcopy &>/dev/null; then
-      echo -n "$MSG" | pbcopy
-      success "Copied to clipboard: $MSG"
-    else
-      error "No clipboard tool found (wl-copy, xclip, pbcopy)."
-      info "Message: $MSG"
+      error "Commit failed."
+      info "$GIT_OUT"
       exit 1
     fi
     ;;
-  edit|"")
-    TMPFILE=$(mktemp /tmp/lazygit_msg_XXXXXX.txt)
-    echo "$MSG" > "$TMPFILE"
-    git commit -F "$TMPFILE"
-    rm -f "$TMPFILE"
+  push)
+    info "Committing..."
+    GIT_OUT=$(git commit -m "$MSG" 2>&1)
+    if [ $? -eq 0 ]; then
+      success "$GIT_OUT"
+      BRANCH=$(git branch --show-current)
+      REMOTE=$(git remote | head -1)
+      info "Pushing to $REMOTE/$BRANCH..."
+      PUSH_OUT=$(git push 2>&1)
+      if [ $? -eq 0 ]; then
+        if [ -n "$PUSH_OUT" ]; then
+          info "$PUSH_OUT"
+        fi
+        success "Pushed to $REMOTE/$BRANCH."
+      else
+        warn "Push failed. Commit was created locally."
+        info "$PUSH_OUT"
+      fi
+    else
+      error "Commit failed."
+      info "$GIT_OUT"
+      exit 1
+    fi
+    ;;
+  clipboard)
+    CLIP_CMD=""
+    if command -v wl-copy &>/dev/null; then
+      CLIP_CMD="wl-copy"
+    elif command -v xclip &>/dev/null; then
+      CLIP_CMD="xclip -selection clipboard"
+    elif command -v pbcopy &>/dev/null; then
+      CLIP_CMD="pbcopy"
+    else
+      error "No clipboard tool found (wl-copy, xclip, pbcopy)."
+      exit 1
+    fi
+
+    PREVIEW="$MSG"
+    if [ ${#PREVIEW} -gt 60 ]; then
+      PREVIEW="${PREVIEW:0:57}..."
+    fi
+
+    if echo -n "$MSG" | eval "$CLIP_CMD"; then
+      success "Copied: $PREVIEW"
+    else
+      error "Failed to copy to clipboard."
+      exit 1
+    fi
     ;;
   *)
     error "Unknown mode: $MODE"
-    info "Usage: lazygit-generate-msg [edit|direct|clipboard|undo]"
+    info "Usage: lazygit-generate-msg [direct|push|clipboard|undo]"
     exit 1
     ;;
 esac
