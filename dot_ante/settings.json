@@ -12,8 +12,7 @@
   "permission_mode": null,
   "short_prompt": null,
   "model_effort": {
-    "mimo-v2.5": "high",
-    "openrouter/free": "min"
+    "mimo-v2.5": "high"
   },
   "theme": "Dark mode",
   "has_completed_onboarding": true,
@@ -26,7 +25,6 @@
   "render_mode": "inline",
   "status_line": null,
   "provider_model": {
-    "openrouter": "openrouter/free",
     "xiaomi-mimo": "mimo-v2.5"
   }
 }

@@ -18,3 +18,8 @@ customCommands:
         command: 'bash $HOME/.local/bin/lazygit-generate-msg clipboard'
         output: popup
         outputTitle: 'AI Commit Message'
+      - key: 'u'
+        context: 'global'
+        description: 'Undo last commit (keep staged)'
+        command: 'bash $HOME/.local/bin/lazygit-generate-msg undo'
+        subprocess: true
