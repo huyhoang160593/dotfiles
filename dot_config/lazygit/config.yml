@@ -6,12 +6,12 @@ customCommands:
         context: 'files'
         description: 'Commit directly'
         command: 'bash $HOME/.local/bin/lazygit-generate-msg direct'
-        subprocess: true
+        output: terminal
       - key: 'p'
         context: 'files'
         description: 'Commit and push'
         command: 'bash $HOME/.local/bin/lazygit-generate-msg push'
-        subprocess: true
+        output: terminal
       - key: 'c'
         context: 'files'
         description: 'Copy to clipboard'
@@ -22,4 +22,4 @@ customCommands:
         context: 'global'
         description: 'Undo last commit (keep staged)'
         command: 'bash $HOME/.local/bin/lazygit-generate-msg undo'
-        subprocess: true
+        output: terminal
