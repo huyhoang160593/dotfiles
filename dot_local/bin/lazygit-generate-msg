@@ -1,14 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
-DIFF=$(git diff --cached)
-if [ -z "$DIFF" ]; then
-  echo "No staged changes to commit."
-  exit 1
-fi
+# --- Configurable AI agent settings ---
+# Override via environment variables or edit these defaults.
+AI_CMD="${AI_CMD:-ante}"
+AI_FLAGS="${AI_FLAGS:---no-skills --no-session-save}"
+AI_PROMPT_FLAG="${AI_PROMPT_FLAG:--p}"
 
-MSG=$(echo "$DIFF" | ante --no-skills --no-session-save -p \
-"Write a conventional commit message for the following git diff.
+PROMPT="Write a conventional commit message for the following git diff.
 
 Format rules:
 - Type: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
@@ -17,7 +16,24 @@ Format rules:
 - Body: optional, wrapped at 72 chars
 - Footer: optional, for BREAKING CHANGE or issue references
 
-Output ONLY the commit message, nothing else. No explanation, no markdown." 2>/dev/null | tail -1)
+Output ONLY the commit message, nothing else. No explanation, no markdown."
+# --- End config ---
+
+# Check AI agent availability
+if ! command -v "$AI_CMD" &>/dev/null; then
+  echo "Error: '$AI_CMD' not found in PATH."
+  echo "Install it or set AI_CMD to your AI agent command."
+  exit 1
+fi
+
+DIFF=$(git diff --cached)
+if [ -z "$DIFF" ]; then
+  echo "No staged changes to commit."
+  exit 1
+fi
+
+# shellcheck disable=SC2086
+MSG=$(echo "$DIFF" | $AI_CMD $AI_FLAGS $AI_PROMPT_FLAG "$PROMPT" 2>/dev/null | tail -1)
 
 if [ -z "$MSG" ]; then
   echo "Failed to generate commit message."
