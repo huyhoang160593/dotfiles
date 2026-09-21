@@ -29,8 +29,21 @@ radius_top_right = 0
 start = [ "Spacer", "launcher", "Spacer_2", "active_window" ]
 thickness = 40
 
-[wallpaper.default]
-path = "/usr/share/wallpapers/cachyos-wallpapers/cachysurf4.jpg"
+[desktop_widgets]
+schema_version = 2
+widget_order = []
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget]
+
+[dock]
+enabled = true
+reserve_space = false
+smart_auto_hide = true
 
 [idle]
 behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
@@ -51,10 +64,22 @@ behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
     lock_before_suspend = false
     timeout = 900.0
 
+[location]
+auto_locate = true
+
 [lockscreen_widgets]
-enabled = false
+enabled = true
 schema_version = 2
-widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1" ]
+widget_order = [
+    "lockscreen-login-box@eDP-1",
+    "lockscreen-login-box@DP-2",
+    "lockscreen-login-box@DP-1",
+    "lockscreen-widget-0000000000000001",
+    "lockscreen-widget-0000000000000002",
+    "lockscreen-widget-0000000000000003",
+    "lockscreen-widget-0000000000000004",
+    "lockscreen-widget-0000000000000005"
+]
 
     [lockscreen_widgets.grid]
     cell_size = 16
@@ -62,11 +87,13 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1" ]
     visible = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
-    box_height = 70.0
-    box_width = 400.0
+    box_height = 196.0
+    box_width = 720.0
     cx = 1280.0
     cy = 1321.0
     output = "DP-1"
+    placement_height = 0.0
+    placement_width = 0.0
     rotation = 0.0
     type = "login_box"
 
@@ -74,18 +101,26 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1" ]
         background_color = "surface_variant"
         background_opacity = 0.88
         background_radius = 12.0
+        center_password_text = false
         input_opacity = 1.0
         input_radius = 6.0
+        layout = "regular"
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-2"]
-    box_height = 70.0
-    box_width = 400.0
+    box_height = 196.0
+    box_width = 720.0
     cx = 1280.0
     cy = 1321.0
     output = "DP-2"
+    placement_height = 0.0
+    placement_width = 0.0
     rotation = 0.0
     type = "login_box"
 
@@ -93,17 +128,130 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-1" ]
         background_color = "surface_variant"
         background_opacity = 0.88
         background_radius = 12.0
+        center_password_text = false
         input_opacity = 1.0
         input_radius = 6.0
+        layout = "regular"
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
+    box_height = 336.0
+    box_width = 336.0
+    cx = 960.0
+    cy = 372.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "clock"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000001.settings]
+        background = true
+        circle = true
+        clock_style = "analog"
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000002]
+    box_height = 144.0
+    box_width = 240.0
+    cx = 1304.0
+    cy = 388.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "weather"
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000003]
+    box_height = 64.0
+    box_width = 64.0
+    cx = 896.0
+    cy = 588.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "button"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000003.settings]
+        background = true
+        glyph = "dog"
+        variant = "default"
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000004]
+    box_height = 64.0
+    box_width = 64.0
+    cx = 1024.0
+    cy = 588.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "button"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000004.settings]
+        background = true
+        glyph = "cat"
+        variant = "default"
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000005]
+    box_height = 0.0
+    box_width = 0.0
+    cx = 616.0
+    cy = 390.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "volume"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000005.settings]
+        background = true
+        shadow = true
+        show_device = true
+        track_color = "on_surface"
+
+[nightlight]
+enabled = true
+temperature_day = 10000
 
 [plugin_settings."noctalia/screen_recorder"]
 restore_portal = false
 
 [plugins]
-enabled = [ "noctalia/screen_recorder", "dotnetrob/cat", "noctalia/wallhaven" ]
+enabled = [ "noctalia/screen_recorder", "dotnetrob/cat" ]
 
     [[plugins.source]]
     kind = "git"
@@ -116,16 +264,37 @@ enabled = [ "noctalia/screen_recorder", "dotnetrob/cat", "noctalia/wallhaven" ]
     name = "community"
 
 [shell]
+avatar_path = "/home/the99spuppycat/Downloads/puppycat-pixel.jpg"
+font_family = "Maple Mono NF"
+lang = "vi"
+password_style = "random"
 polkit_agent = true
 settings_show_advanced = true
 
+    [shell.greeter_sync]
+    auto_sync = true
+
+    [shell.panel]
+    control_center_placement = "floating"
+
 [theme]
 builtin = "Noctalia"
+community_palette = "Oxocarbon"
 mode = "dark"
 source = "wallpaper"
+wallpaper_scheme = "m3-content"
 
     [theme.templates]
     builtin_ids = [ "gtk3", "gtk4", "kcolorscheme", "qt" ]
+
+[wallpaper.default]
+path = "/home/the99spuppycat/Pictures/northernlight.jpeg"
+
+[wallpaper.last]
+path = "/home/the99spuppycat/Pictures/northernlight.jpeg"
+
+[wallpaper.monitors.eDP-1]
+path = "/home/the99spuppycat/Pictures/northernlight.jpeg"
 
 [widget.Spacer]
 length = 10
@@ -153,5 +322,5 @@ type = "noctalia/screen_recorder:recorder"
 
 [widget.workspaces]
 anchor = true
-show_labels = true
 label_source = "name"
+show_labels = true

@@ -1,12 +1,13 @@
 {
-  "current_theme": "presets/rose-pine@1.0",
-  "current_path": "/home/the99spuppycat/.config/stellar/presets/rose-pine/1.0.toml",
+  "current_theme": "presets/rose-pine-moon@1.0",
+  "current_path": "/home/the99spuppycat/.config/stellar/presets/rose-pine-moon/1.0.toml",
   "previous_theme": "presets/rose-pine@1.0",
-  "previous_path": "/home/johan/.config/stellar/presets/rose-pine/1.0.toml",
+  "previous_path": "/home/the99spuppycat/.config/stellar/presets/rose-pine/1.0.toml",
   "downloaded_themes": [
-    "presets/rose-pine"
+    "presets/rose-pine",
+    "presets/rose-pine-moon"
   ],
-  "applied_hash": "de62d2b4530bcc5294975e709418d7beb8526ee9315a33f019bb7787297a2a1b",
+  "applied_hash": "ccbfac955e42638587c1c212cfd656b6959c633d9073a3aa9ec7d255c7195b47",
   "install_id": "a5ecd4c1-9efa-4dbc-9e51-7681a98d7b49",
   "install_kind": "existing",
   "reported_version": "1.4.0",

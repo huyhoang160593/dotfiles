@@ -40,6 +40,11 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
 - Kiểm tra kết quả render: `cat .chezmoiignore.tmpl | chezmoi execute-template`
 - Xem danh sách file bị bỏ qua: `chezmoi ignored`
 
+**Secrets — `~/.ante/auth`** (đã ignore trong `.chezmoiignore.tmpl`):
+- Thư mục này **không sync** qua chezmoi — mỗi máy tự tạo riêng
+- Chứa `api_keys.json` lưu API key để Ante gọi AI provider (OpenAI, Anthropic...)
+- Format: `{ "openai": "sk-...", "anthropic": "sk-ant-..." }`
+
 **Mẹo viết Go template chezmoi (áp dụng cho tất cả `.tmpl`):**
 - `{{- ... -}}` xóa khoảng trắng 2 đầu dòng — useful cho code inline, nhưng **cẩn thận**: nó cũng xóa newline, dễ làm 2 dòng content dính vào nhau
 - Comment: dùng `#` cho tất cả file template — đơn giản, an toàn, không gây lỗi trim
@@ -162,6 +167,19 @@ Các function fish do chezmoi quản lý, đặt tại `~/.config/fish/private_f
 | `appimage_update_icon` | Di chuyển icon PNG từ `~/.local/share/icons/` về `hicolor/256x256/apps/`, cập nhật GTK icon cache & desktop database | `appimage_update_icon` |
 | `check_tools` | Kiểm tra tất cả tool trong bộ công cụ đã cài đặt chưa, liệt kê cái còn thiếu | `check_tools` |
 | `lazygit_generate_msg` | Wrapper cho script AI commit message, delegate tới `~/.local/bin/lazygit-generate-msg` | `lazygit_generate_msg [direct\|push\|clipboard\|undo]` |
+
+### Per-system config (conf.d)
+
+Fish source tất cả file `*.fish` trong `~/.config/fish/conf.d/` trước `config.fish`, chạy cho mọi shell (interactive + non-interactive). Repo có sẵn file mẫu:
+
+```
+~/.config/fish/conf.d/00_example_per_system_config.fish   ← template (chezmoi sync)
+```
+
+**Cách thêm config riêng cho máy:**
+1. Copy file mẫu, đổi tên theo quy ước `NN_description.fish` (VD: `01_work_laptop.fish`)
+2. File mới nằm ngoài repo → chezmoi bỏ qua, không ghi đè khi apply trên máy khác
+3. Định groups: PATH, Env vars, Tool init (xem file mẫu)
 
 ---
 
