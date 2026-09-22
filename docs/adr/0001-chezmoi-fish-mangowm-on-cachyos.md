@@ -19,7 +19,7 @@ Trong buổi grill, team đã giải quyết nhiều quyết định nền tản
 
 4. **Noctalia greeter thay SDDM.** Vì mangowm không có greeter, chọn `noctalia-greeter-session` thay SDDM. SDDM bị loại rõ ràng: màn hình đăng nhập không đồng bộ với giao diện Noctalia và sẽ lệch视觉 với bar, panel, và màn hình khóa mà Noctalia cung cấp. Noctalia cũng cung cấp bar, launcher, thông báo, wallpaper, và màn hình khóa nên toàn bộ bề mặt đồng bộ.
 
-5. **Sửa env theme QT.** Sau cài đặt, `env.conf` của mangowm phải set `QT_QPA_PLATFORMTHEME=qt6ct` và `QT_QPA_PLATFORMTHEME_QT6=qt6ct` để Qt6 app nhận bảng màu Noctalia (cấu hình trong `~/.config/qt6ct/colors/noctalia.conf` và `~/.config/qt5ct/colors/noctalia.conf`). Nếu không, Qt app sẽ render theme lỗi/thiếu.
+5. **Sửa env theme QT.** Sau cài đặt, `env.conf` của mangowm phải set `QT_QPA_PLATFORMTHEME=qt6ct` và `QT_QPA_PLATFORMTHEME_QT6=qt6ct` để Qt6 app nhận bảng màu Noctalia (cấu hình trong `~/.config/qt6ct/colors/noctalia.conf` và `~/.config/qt5ct/colors/noctalia.conf`). Nếu không, Qt app sẽ render theme lỗi/thiếu. **Lưu ý**: systemd user services (như Dolphin daemon) không inherit env vars của mangowm vì `~/.config/environment.d/` không được đọc đúng. Fix: `exec-once = systemctl --user import-environment` trong `autostart.conf` push env vars vào systemd user session.
 
 6. **Ghostty thay Alacritty; Helium thay Firefox.** Cả hai được ghi vào danh sách sửa sau cài đặt.
 

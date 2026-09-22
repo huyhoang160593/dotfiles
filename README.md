@@ -113,6 +113,20 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
   TerminalApplication=/home/the99spuppycat/.local/bin/ghostty
   ```
 
+### Qt app mở từ browser bị hỏng theme
+- **Sự cố**: Mở Dolphin (hoặc Qt app khác) từ Helium/Chrome qua "download → truy cập thư mục", Dolphin hiện theme mặc định/fusion thay vì Noctalia.
+- **Nguyên nhân**: Dolphin có background daemon (`plasma-dolphin.service`) do systemd user quản lý. Hệ thống `~/.config/environment.d/` **không được systemd đọc** vì MangoWM start sau khi systemd user instance đã chạy. Khi browser gọi DBus mở Dolphin, daemon thiếu `QT_QPA_PLATFORMTHEME` → render theme sai.
+- **Cách sửa**: Đã fix bằng `exec-once = systemctl --user import-environment` trong `autostart.conf` (chezmoi sync). Lệnh này push env vars của MangoWM (bao gồm `QT_QPA_PLATFORMTHEME` từ `env.conf`) vào systemd user session mỗi lần login.
+- **Quick fix** (session hiện tại):
+  ```bash
+  systemctl --user import-environment QT_QPA_PLATFORMTHEME QT_QPA_PLATFORMTHEME_QT6
+  systemctl --user restart plasma-dolphin.service
+  ```
+- **Verify**: Kiểm tra Dolphin daemon có env chưa:
+  ```bash
+  cat /proc/$(pgrep -x dolphin)/environ | tr '\0' '\n' | grep QT
+  ```
+
 ### Icon AppImage bị hỏng
 - **Sự cố**: Icon không hiển thị trong launcher/menu desktop sau khi tích hợp AppManager.
 - **Nguyên nhân**: Icon đặt sai thư mục hicolor; cache GTK/desktop chưa được làm mới.
