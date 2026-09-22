@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+"""Chezmoi modify script: syncs shared fields, preserves per-machine fields.
+
+Settings reference: https://docs.antigma.ai/configuration/preference
+Catalog reference:   https://docs.antigma.ai/reference/catalog-reference
+"""
+
+import copy
+import json
+import sys
+
+# Fields synced from chezmoi on every apply — overwrite existing
+SYNCED = {
+    "system_prompt": None,
+    "append_system_prompt": None,
+    "tools": None,
+    "auto_memory": None,
+    "skills": None,
+    "include_skills": None,
+    "exclude_skills": None,
+    "session_save": None,
+    "permission_mode": None,
+    "short_prompt": None,
+    "theme": "Dark mode",
+    "has_completed_onboarding": True,
+    "ambient_thinking_phrase": None,
+    "ambient_prompt_suggestion": None,
+    "tips": None,
+    "group_tool_activity": None,
+    "auto_compact": None,
+    "channel": None,
+    "render_mode": "inline",
+    "status_line": None,
+    "status_line_command": {"command": "~/.ante/statusline.sh", "padding": 1},
+}
+
+# Per-machine fields — preserved if present, default if missing
+LOCAL = {
+    "model": "mimo-v2.5",
+    "provider": "xiaomi-mimo",
+    "model_effort": {"mimo-v2.5": "high"},
+    "provider_model": {"xiaomi-mimo": "mimo-v2.5"},
+}
+
+try:
+    data = json.load(sys.stdin)
+except json.JSONDecodeError:
+    data = {}
+
+result = copy.deepcopy(SYNCED)
+
+for key, default in LOCAL.items():
+    if key in data:
+        result[key] = data[key]
+    else:
+        result[key] = default
+
+json.dump(result, sys.stdout, indent=2, ensure_ascii=False)
+sys.stdout.write("\n")
