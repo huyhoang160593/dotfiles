@@ -5,7 +5,6 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "fish:Fish (shell)" \
         "starship:Starship (prompt)" \
         "stellar:Stellar (quản lý theme)" \
-        "noctalia:Noctalia (desktop shell)" \
         "fresh:Fresh (TUI dashboard)" \
         "zellij:Zellij (session manager)" \
         "ante:Ante (AI agent)" \
