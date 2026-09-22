@@ -17,7 +17,8 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "tldr:tealdeer (tldr client)" \
         "bat:bat (cat replacement)" \
         "lazygit:lazygit (git TUI)" \
-        "fastfetch:fastfetch (system info)"
+        "fastfetch:fastfetch (system info)" \
+        "spf:superfile (TUI file manager)"
 
     set missing
     set found 0
