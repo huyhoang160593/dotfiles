@@ -11,6 +11,33 @@
       },
       "preferred_models": [
         {
+          "id": "mimo-v2.6-pro",
+          "description": "MiMo V2.6 Pro — latest reasoning model with vision",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": true
+        },
+        {
+          "id": "mimo-v2.6-pro-ultraspeed",
+          "description": "MiMo V2.6 Pro UltraSpeed — fast reasoning model with vision",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": true
+        },
+        {
+          "id": "mimo-v2.6-flash",
+          "description": "MiMo V2.6 Flash — lightweight fast model",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": true
+        },
+        {
           "id": "mimo-v2.5-pro",
           "description": "MiMo V2.5 Pro — reasoning model with vision",
           "context_limit": 1048576,
@@ -40,6 +67,33 @@
         }
       },
       "preferred_models": [
+        {
+          "id": "mimo-v2.6-pro",
+          "description": "MiMo V2.6 Pro — latest reasoning model with vision",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": true
+        },
+        {
+          "id": "mimo-v2.6-pro-ultraspeed",
+          "description": "MiMo V2.6 Pro UltraSpeed — fast reasoning model with vision",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": true
+        },
+        {
+          "id": "mimo-v2.6-flash",
+          "description": "MiMo V2.6 Flash — lightweight fast model",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "effort": "high",
+          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": true
+        },
         {
           "id": "mimo-v2.5-pro",
           "description": "MiMo V2.5 Pro — reasoning model with vision",
