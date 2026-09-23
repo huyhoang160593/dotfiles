@@ -136,6 +136,21 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
   ```
   Hoặc script tự chạy khi cài AppImage mới qua AppManager.
 
+### Ẩn nút X (close) trên GTK apps — tại sao gsettings "không hiệu quả"
+- **Sự cố**: Muốn ẩn window controls (nút X...) trên GTK apps trên mango (không có mutter); `gsettings set org.gnome.desktop.wm.preferences button-layout ...` không hiệu quả, settings.ini cũng không thấy tác dụng.
+- **Nguyên nhân (3 lớp)**:
+  1. **Ghostty AppImage (bản sharun) có file `.env` trong bundle set `GSETTINGS_BACKEND=keyfile`** → mọi `gsettings set` gõ từ terminal ghi vào `~/.config/glib-2.0/settings/keyfile`, trong khi portal/GTK đọc **dconf** → giá trị biến mất. Đây là lý do gsettings "không hiệu quả". (Ghostty upstream không làm gì sai — env nằm ở file `.env` của bundle đóng gói.)
+  2. **GTK4 (libadwaita) đọc button-layout qua xdg-desktop-portal**, không phải mutter/XSETTINGS như thường nghĩ — portal thắng mọi settings.ini. Verify bằng `gdbus call ... org.freedesktop.portal.Settings.Read org.gnome.desktop.wm.preferences button-layout`.
+  3. **GTK3** không có portal/XSETTINGS trên session này → **settings.ini là nguồn duy nhất** có tác dụng cho GtkHeaderBar GTK3.
+- **Cách sửa (đã apply)**:
+  - Ghi thẳng dconf: `GSETTINGS_BACKEND=dconf gsettings set org.gnome.desktop.wm.preferences button-layout ':'` (persist tại `~/.config/dconf/user` — **không** đưa file dconf vào chezmoi vì là binary DB ghi thường xuyên)
+  - `~/.config/gtk-3.0/settings.ini` + `~/.config/gtk-4.0/settings.ini` (chezmoi sync): `gtk-decoration-layout=:` — GTK3 dùng chính, GTK4 làm fallback khi portal chết (đã verify: stop portal → `gtk4-query-settings` trả `":"`)
+  - `config.fish`: `set -gx GSETTINGS_BACKEND dconf` (chèn sau lúc ghostty tiêm — win vì chạy sau spawn)
+  - mango `env.conf`: `env = GSETTINGS_BACKEND,dconf` (phòng hờ cho app spawn từ session; cần re-login)
+- **Verify**: portal Read trả `':'`; `gtk4-query-settings 2>&1 | grep decoration` = `":"` (khi portal tắt); mở Loupe không còn nút X.
+- **Giới hạn**: nút đóng trong `AdwDialog` của libadwaita **luôn hiện** bất kể layout ("regardless of the system button layout") — không override được từ user side.
+- Chi tiết: [docs/research/gtk-hide-close-button.md](docs/research/gtk-hide-close-button.md) — **lưu ý**: phần đầu research kết luận "chỉ mutter/ gsdxsettings đọc key nên gsettings vô dụng" đã bị bổ sung ở đây: GTK4 thực ra đọc qua portal, vấn đề thật là backend keyfile.
+
 ### Starship hiển thị prompt mặc định
 - **Sự cố**: Starship prompt chưa được áp dụng theme stellar.
 - **Cách sửa**:
@@ -153,6 +168,7 @@ env = QT_QPA_PLATFORMTHEME,qt6ct
 env = QT_QPA_PLATFORMTHEME_QT6,qt6ct
 env = PATH,~/.local/bin:~/.ante/bin:/usr/local/bin:/usr/bin
 env = BROWSER,helium
+env = GSETTINGS_BACKEND,dconf
 ```
 > **Lưu ý**: mangowm mở rộng `~` nhưng **không** mở rộng `$HOME`.
 

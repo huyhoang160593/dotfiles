@@ -4,6 +4,9 @@ fish_add_path -g ~/.ante/bin
 
 # ── Environment ───────────────────────────────────────────────
 set -gx BROWSER helium
+# Ghostty AppImage set GSETTINGS_BACKEND=keyfile (file .env trong bundle),
+# ghi đè về dconf để portal/GTK thấy giá trị của `gsettings set`
+set -gx GSETTINGS_BACKEND dconf
 
 # ── SSH agent ─────────────────────────────────────────────────
 if not set -q SSH_AUTH_SOCK
