@@ -61,7 +61,7 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
 ### Window Manager: mangowm
 - **Đã chọn**: mangowm
 - **Đã bỏ chọn**: ❌ SDDM (login manager) — dùng Noctalia Greeter thay thế để đồng bộ giao diện
-- **Env vars**: QT_QPA_PLATFORMTHEME, QT_QPA_PLATFORMTHEME_QT6, PATH — đã cấu hình sẵn trong `~/.config/mango/cfg/env.conf` (chezmoi sync)
+- **Env vars**: QT_QPA_PLATFORMTHEME, QT_QPA_PLATFORMTHEME_QT6, PATH, BROWSER — đã cấu hình sẵn trong `~/.config/mango/cfg/env.conf` (chezmoi sync). Một số env (như `BROWSER`) cần set ở cả env.conf lẫn `config.fish` — xem mục "Biến môi trường" bên dưới.
 
 ### Validate Config Noctalia
 - Config: `~/.config/noctalia/*.toml` (định dạng TOML)
@@ -152,8 +152,28 @@ Tất cả env vars được quản lý tại `~/.config/mango/cfg/env.conf` (ch
 env = QT_QPA_PLATFORMTHEME,qt6ct
 env = QT_QPA_PLATFORMTHEME_QT6,qt6ct
 env = PATH,~/.local/bin:~/.ante/bin:/usr/local/bin:/usr/bin
+env = BROWSER,helium
 ```
 > **Lưu ý**: mangowm mở rộng `~` nhưng **không** mở rộng `$HOME`.
+
+### Env cần set ở CẢ HAI nơi: mangowm session lẫn fish
+Một số env vars quyết định cách **mở ứng dụng/link** (ví dụ `BROWSER`) nên được set ở cả `~/.config/mango/cfg/env.conf` **và** `~/.config/fish/config.fish`, vì hai môi trường này không thừa hưởng env của nhau:
+
+- Chỉ set trong **fish** (`set -gx BROWSER helium`): biến chỉ có hiệu lực trong terminal — GUI apps do compositor spawn (Noctalia, launcher...) **không nhận được** → `xdg-open` fallback sang parse file `.desktop`, dễ fail âm thầm (vd: nút mở link trong Settings → Plugins của Noctalia không có phản hồi).
+- Chỉ set trong **env.conf**: TTY/greeter session (không đi qua mangowm) không nhận được.
+
+```
+# ~/.config/mango/cfg/env.conf (chezmoi sync)
+env = BROWSER,helium
+```
+```fish
+# ~/.config/fish/config.fish (chezmoi sync)
+set -gx BROWSER helium
+```
+
+Sau khi sửa env.conf cần **đăng xuất/đăng nhập lại** session (env chỉ nạp lúc compositor khởi động); sửa config.fish thì `exec fish` là đủ.
+
+> Chi tiết case này: [docs/research/noctalia-plugin-link-opening.md](docs/research/noctalia-plugin-link-opening.md)
 
 ---
 

@@ -18,7 +18,8 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "bat:bat (cat replacement)" \
         "lazygit:lazygit (git TUI)" \
         "fastfetch:fastfetch (system info)" \
-        "spf:superfile (TUI file manager)"
+        "spf:superfile (TUI file manager)" \
+        "gpu-screen-recorder:gpu-screen-recorder (screen recorder)"
 
     set missing
     set found 0

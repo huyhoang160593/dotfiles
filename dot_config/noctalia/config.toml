@@ -282,10 +282,10 @@ builtin = "Noctalia"
 community_palette = "Oxocarbon"
 mode = "dark"
 source = "wallpaper"
-wallpaper_scheme = "m3-content"
+wallpaper_scheme = "m3-fruit-salad"
 
     [theme.templates]
-    builtin_ids = [ "gtk3", "gtk4", "kcolorscheme", "qt" ]
+    builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "mango", "qt" ]
 
 [wallpaper.default]
 path = "/home/the99spuppycat/Pictures/northernlight.jpeg"
