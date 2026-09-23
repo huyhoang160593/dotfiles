@@ -91,7 +91,7 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
 | AI | Ante | Lightweight, ít lỗi hơn Claude Code/Codex | |
 | Quản lý AppImage | AppManager | Cài đặt và quản lý AppImage | Dùng `appimage_update_icon` để sửa icon |
 | CLI tiện ích | fzf, zoxide, eza, tealdeer, bat | Fuzzy finder, nhảy thư mục, ls replacement, tldr, cat replacement | eza dùng `--icons=auto` |
-| System info | fastfetch | Hiển thị thông tin hệ thống khi mở shell | Preset `examples/31.jsonc` |
+| System info | fastfetch | Hiển thị thông tin hệ thống khi mở shell | Preset `examples/12.jsonc` |
 | Git TUI | lazygit | Giao diện terminal cho git | Commit, diff, stash, merge trực quan |
 | Đồng bộ web | Koonde + Proton Pass | Bookmark, mật khẩu | |
 | Firewall | ufw | Mở port cho LocalSend | Xem phần ufw bên dưới |

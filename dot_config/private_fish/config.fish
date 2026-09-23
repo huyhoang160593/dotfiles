@@ -41,7 +41,7 @@ if status is-interactive
 
     # System info
     if type -q fastfetch
-        fastfetch -c /usr/share/fastfetch/presets/examples/12.jsonc
+        fastfetch -c examples/12.jsonc
     end
 end
 
