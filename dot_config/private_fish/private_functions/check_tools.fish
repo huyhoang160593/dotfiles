@@ -19,7 +19,8 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "lazygit:lazygit (git TUI)" \
         "fastfetch:fastfetch (system info)" \
         "spf:superfile (TUI file manager)" \
-        "gpu-screen-recorder:gpu-screen-recorder (screen recorder)"
+        "gpu-screen-recorder:gpu-screen-recorder (screen recorder)" \
+        "mime-tui:mime-tui (quản lý MIME type → ứng dụng)"
 
     set missing
     set found 0

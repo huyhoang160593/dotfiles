@@ -1,6 +1,7 @@
 [bar.default]
 background_opacity = 0.89999997988343239
-center = [ "workspaces", "Spacer_2", "media", "Spacer_2", "cat" ]
+capsule_group = []
+center = [ "media", "Spacer_2", "cat" ]
 end = [
     "tray",
     "Spacer_2",
@@ -26,7 +27,7 @@ radius_bottom_left = 0
 radius_bottom_right = 0
 radius_top_left = 0
 radius_top_right = 0
-start = [ "Spacer", "launcher", "Spacer_2", "active_window" ]
+start = [ "Spacer", "launcher", "Spacer", "workspaces", "Spacer_2", "active_window", "Spacer_2", "dns_switcher_2" ]
 thickness = 40
 
 [desktop_widgets]
@@ -251,7 +252,7 @@ temperature_day = 10000
 restore_portal = false
 
 [plugins]
-enabled = [ "noctalia/screen_recorder", "dotnetrob/cat" ]
+enabled = [ "noctalia/screen_recorder", "dotnetrob/cat", "nightwatch75/dns-switcher" ]
 
     [[plugins.source]]
     kind = "git"
@@ -310,6 +311,12 @@ type = "dotnetrob/cat:cat"
 [widget.date]
 format = "{:%a %d %b -}"
 
+[widget.dns-switcher]
+type = "nightwatch75/dns-switcher:dns-switcher"
+
+[widget.dns_switcher_2]
+type = "nightwatch75/dns-switcher:dns-switcher"
+
 [widget.launcher]
 custom_image = "/usr/share/icons/hicolor/scalable/apps/org.cachyos.hello.svg"
 scale = 1.45
@@ -323,4 +330,4 @@ type = "noctalia/screen_recorder:recorder"
 [widget.workspaces]
 anchor = true
 label_source = "name"
-show_labels = true
+show_labels = false

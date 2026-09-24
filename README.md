@@ -68,6 +68,17 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
 - Validate: `noctalia config validate`
 - Docs: https://docs.noctalia.dev/noctalia/configuration/
 
+### Plugin Noctalia đang dùng
+Nguồn plugin (khai báo trong `~/.config/noctalia/config.toml`, mục `[plugins]`):
+- `official`: https://github.com/noctalia-dev/official-plugins
+- `community`: https://github.com/noctalia-dev/community-plugins
+
+| Plugin ID | Nguồn | Công dụng | Vị trí trong config |
+|---|---|---|---|
+| `noctalia/screen_recorder` | official | Ghi màn hình bằng `gpu-screen-recorder` + replay buffer. Widget `recorder`: click trái = bật/tắt ghi, click phải = bắt đầu/dừng replay buffer, click giữa = lưu replay. Cần cài `gpu-screen-recorder` | widget `recorder` ở nhóm `end` của bar; setting `restore_portal = false` |
+| `dotnetrob/cat` | community | Mèo animation trong bar phản ánh tải CPU: ngủ khi idle, đi bộ khi CPU > 15% (`walk_threshold`), chạy khi > 60% (`run_threshold`); màu theo theme. Click vào widget hiện panel CPU % | widget `cat` ở nhóm `center` của bar, `cat_size = 34` |
+| `nightwatch75/dns-switcher` | community | Chuyển DNS hệ thống (Google, Cloudflare, OpenDNS, AdGuard, Quad9 hoặc tối đa 5 server custom) không ngắt kết nối, chạy qua `nmcli`; panel có sẵn test DNS lookup (`dig`/`nslookup`). Click trái = mở panel, click phải = reset về DNS ISP, scroll = chuyển provider | widget `dns_switcher_2` ở nhóm `start` của bar |
+
 ### Nhập liệu tiếng Việt
 - Cài `fcitx5-lotus`
 - Xem hướng dẫn cài đặt chi tiết cho từng hệ điều hành tại: https://lotusinputmethod.github.io/#installation
@@ -205,6 +216,50 @@ Sau khi thêm rule:
 ```bash
 sudo ufw status verbose  # kiểm tra rule đã được thêm
 ```
+
+---
+
+## Phím tắt thường dùng
+
+Toàn bộ bind nằm trong `~/.config/mango/cfg/keybinds.conf` (chezmoi sync) — xem đầy đủ tại https://mangowm.github.io/docs/bindings/keys. `Super` = phím Windows.
+
+### Chụp màn hình & quay màn hình
+
+| Phím | Chức năng | Ghi chú |
+|---|---|---|
+| `Super + P` | Chụp **vùng** (kéo chọn vùng) | Gọi `noctalia msg screenshot-region` |
+| `Super + Shift + P` | Chụp **toàn màn hình** hiện tại | Gọi `noctalia msg screenshot-fullscreen` |
+| `Super + Alt + P` | Chụp **toàn bộ mọi màn hình** | Gọi `noctalia msg screenshot-fullscreen all` |
+
+**Quay màn hình**: không có phím tắt — dùng widget `recorder` trên thanh bar (plugin `noctalia/screen_recorder`): click trái = bật/tắt ghi, click phải = replay buffer, click giữa = lưu replay. Hoặc mở Control Center (`Super + S`) dùng shortcut recorder. File ghi vào `~/Videos/Recordings`.
+
+### Ứng dụng & Noctalia
+
+| Phím | Chức năng |
+|---|---|
+| `Super + Return` | Mở Ghostty (terminal) |
+| `Super + E` | Mở Dolphin (file manager) |
+| `Super + B` | Mở Helium (browser) |
+| `Super + Space` | Mở Launcher |
+| `Super + S` | Mở Control Center |
+| `Super + Shift + S` | Mở Settings Noctalia |
+| `Super + C` | Mở bảng Clipboard history |
+| `Super + Shift + Q` | Bảng session (đăng xuất/tắt máy) |
+| `Super + R` | Reload config mango |
+
+### Cửa sổ & workspace
+
+| Phím | Chức năng |
+|---|---|
+| `Super + Q` | Đóng cửa sổ hiện tại |
+| `Super + Tab` | Chuyển focus giữa cửa sổ |
+| `Super + V` | Toggle floating |
+| `Super + F` | Toggle maximize |
+| `Super + Shift + F` | Toggle fullscreen |
+| `Alt + Tab` | Toggle overview |
+| `Super + 1…9` | Chuyển workspace |
+| `Super + Shift + 1…9` | Chuyển cửa sổ sang workspace khác |
+| `Super + Z` | Toggle scratchpad |
 
 ---
 
