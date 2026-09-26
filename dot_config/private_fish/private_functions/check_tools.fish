@@ -20,6 +20,7 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "fastfetch:fastfetch (system info)" \
         "spf:superfile (TUI file manager)" \
         "gpu-screen-recorder:gpu-screen-recorder (screen recorder)" \
+        "easyeffects:EasyEffects (audio effects)" \
         "mime-tui:mime-tui (quản lý MIME type → ứng dụng)"
 
     set missing

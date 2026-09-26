@@ -63,6 +63,17 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
 - **Đã bỏ chọn**: ❌ SDDM (login manager) — dùng Noctalia Greeter thay thế để đồng bộ giao diện
 - **Env vars**: QT_QPA_PLATFORMTHEME, QT_QPA_PLATFORMTHEME_QT6, PATH, BROWSER — đã cấu hình sẵn trong `~/.config/mango/cfg/env.conf` (chezmoi sync). Một số env (như `BROWSER`) cần set ở cả env.conf lẫn `config.fish` — xem mục "Biến môi trường" bên dưới.
 
+### Autostart khi login (mango autostart.conf)
+- File: `~/.config/mango/cfg/autostart.conf` (chezmoi sync), chạy lúc compositor khởi động.
+- **EasyEffects phải tự chạy khi login** (service mode: chạy nền, không mở cửa sổ) — dùng để chỉnh âm loa laptop (to, rõ hơn); thiếu thì âm quay về mặc định cho tới khi tự mở app.
+- **Lưu ý**: EasyEffects có autostart riêng qua `~/.config/autostart/com.github.wwmm.easyeffects.desktop` (systemd unit `app-...@autostart.service`) — file này từng biến mất nên app không tự chạy; hiện dựa vào mango `autostart.conf`, không cần file đó.
+- Sửa `autostart.conf` xong cần **re-login** (exec-once chỉ chạy lúc compositor start).
+
+### EasyEffects — preset
+- EasyEffects cài mới **không kèm sẵn preset nào** (mục Presets trống) — không phải lỗi máy: preset do người dùng cộng đồng tạo, upstream chỉ tổng hợp link tại [Community presets wiki](https://github.com/wwmm/easyeffects/wiki/Community-presets) (README upstream cũng trỏ đúng vào wiki này).
+- Nguồn preset cộng đồng (tổng hợp, có link tải): https://github.com/wwmm/easyeffects/wiki/Community-presets
+- Đang dùng: https://github.com/JackHack96/EasyEffects-Presets (link trong wiki trên) — preset output nằm tại `~/.local/share/easyeffects/output/`.
+
 ### Validate Config Noctalia
 - Config: `~/.config/noctalia/*.toml` (định dạng TOML)
 - Validate: `noctalia config validate`
@@ -96,6 +107,7 @@ Nguồn plugin (khai báo trong `~/.config/noctalia/config.toml`, mục `[plugin
 | Prompt | Starship + Stellar (quản lý theme) | Prompt đa nền tảng; Stellar quản lý theme | Bảng màu rose-pine; áp dụng với `stellar` |
 | WM | mangowm | Wayland compositor | Config trong `~/.config/mango/cfg/` |
 | Desktop Shell | Noctalia | Thanh trạng thái, panel, launcher, thông báo, màn hình khóa | |
+| Âm thanh | EasyEffects | Chỉnh âm loa laptop: EQ/compressor cho âm to, rõ hơn (PipeWire) | Autostart service-mode + preset cộng đồng — xem 2 mục EasyEffects bên dưới |
 | Greeter | Noctalia Greeter | Màn hình đăng nhập (không dùng SDDM) | |
 | Dashboard TUI | Fresh | Dashboard terminal | |
 | Quản lý session | Zellij | Tab, pane, layout cho terminal | |
@@ -110,6 +122,42 @@ Nguồn plugin (khai báo trong `~/.config/noctalia/config.toml`, mục `[plugin
 ---
 
 ## Các sự cố đã biết & Cách sửa
+
+### Mất boot option Limine trong BIOS (dual-boot với SSD ngoài)
+- **Sự cố**: Dual-boot Windows (NVMe trong) + CachyOS (SSD ngoài USB — ESP `/dev/sda1` mount tại `/boot`, root `/dev/sda2`). Boot Windows khi SSD ngoài chưa cắm → firmware **xóa luôn boot entry Limine** trong NVRAM; cắm lại SSD ngoài vẫn mất, không hiện trong Boot options lẫn Boot Order.
+- **Nguyên nhân**: Boot entry trỏ vào thiết bị vắng mặt lúc POST bị firmware gỡ (đặc biệt với ổ USB). File bootloader trên ESP vẫn còn nguyên — chỉ mất entry trong NVRAM.
+- **Cách sửa** (boot bằng live ISO CachyOS):
+  1. Boot CachyOS live ISO, kết nối mạng (cần pacman).
+  2. Vào chroot:
+     ```bash
+     sudo su
+     pacman -Sy cachy-chroot   # nếu ISO chưa có sẵn
+     cachy-chroot
+     ```
+     `cachy-chroot` tự tìm phân vùng, mount root + mọi mountpoint trong `fstab` rồi chroot vào.
+  3. Chọn đúng SSD ngoài khi nó liệt kê phân vùng (kiểm tra bằng `lsblk`: EFI `vfat` ~4G + root `btrfs`); khi hỏi phân vùng thêm thì nhập `/boot`.
+  4. Trong chroot, cài lại Limine:
+     ```bash
+     limine-install
+     ```
+     (copy `limine_x64.efi` vào ESP và tự đăng ký lại boot entry NVRAM)
+  5. Tạo lại boot entries kernel (chạy lại hook `limine-mkinitcpio`):
+     ```bash
+     pacman -Syu linux-cachyos linux-cachyos-headers
+     ```
+  6. `exit` → **shutdown hẳn** → cắm SSD ngoài → bật máy → vào BIOS xác nhận entry **Limine** đã trở lại và đứng đầu Boot Order.
+- **Verify**: trong hệ thống chạy `efibootmgr -v` → thấy `Boot....* Limine ... \EFI\limine\limine_x64.efi`.
+- **Bootloader khác** (theo [FAQ CachyOS — Bootloader Recovery](https://wiki.cachyos.org/cachyos_basic/faq)):
+
+  | Bootloader | Lệnh sửa trong chroot (UEFI) |
+  |---|---|
+  | systemd-boot | `bootctl install` |
+  | GRUB | `grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=cachyos` rồi `grub-mkconfig -o /boot/grub/grub.cfg` |
+
+- **Phòng ngừa**:
+  1. Firmware tự xóa boot entry nếu boot khi SSD ngoài chưa cắm — cắm lại sau đó vẫn mất.
+  2. Luôn shutdown hẳn trước khi rút SSD ngoài (đừng để máy boot/POST khi SSD chưa cắm).
+  3. Chạy `limine-install --fallback` một lần để ghi `\EFI\BOOT\BOOTX64.EFI` vào SSD ngoài — firmware thường boot được đường fallback này cả khi mất entry (đặc biệt với ổ USB).
 
 ### Dolphin không mở được file
 - **Sự cố**: Dolphin báo "Terminal ghostty not found" khi mở file bằng terminal.
