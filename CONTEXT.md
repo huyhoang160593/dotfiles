@@ -13,6 +13,17 @@ Danh sách file/folder bị bỏ qua khi chezmoi sync ra home. Pattern so sánh 
 **CachyOS**:
 Linux distribution dựa trên Arch, tối ưu hiệu năng. Ship config fish mặc định xung đột với config do chezmoi quản lý; phải bỏ chọn khi cài đặt.
 
+**Limine**:
+Bootloader mặc định của CachyOS, dùng cho cả UEFI lẫn legacy BIOS. File boot UEFI nằm ở `\EFI\limine\limine_x64.efi` trên ESP.
+_Avoid_: "lumie"
+
+**Boot entry (NVRAM)**:
+Mục boot trong firmware UEFI, trỏ tới file `.efi` trên ESP. Khác với chính file bootloader trên ESP: firmware có thể tự xóa boot entry khi thiết bị chứa nó vắng mặt lúc boot, trong khi file vẫn còn nguyên.
+_Avoid_: "boot option"
+
+**cachy-chroot**:
+Tiện ích trên live ISO CachyOS bọc quanh `arch-chroot`: tự tìm phân vùng, mount root + mọi mountpoint trong `fstab` (hỗ trợ Btrfs/LUKS) rồi chroot vào hệ thống đã cài.
+
 **mangowm**:
 Wayland compositor với animation mượt và config modular chia thành các file `cfg/*.conf`. Đóng vai trò window manager. Không có login greeter.
 

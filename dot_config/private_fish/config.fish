@@ -27,6 +27,10 @@ if status is-interactive
     abbr -a lt  eza -TL=2 --icons=auto
 
     # Tool initializers
+    if type -q mise
+        mise activate fish | source
+    end
+
     if type -q starship
         starship init fish | source
     end

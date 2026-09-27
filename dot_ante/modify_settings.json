@@ -21,6 +21,7 @@ SYNCED = {
     "session_save": None,
     "permission_mode": None,
     "short_prompt": None,
+    "max_concurrent_subagents": None,
     "theme": "Dark mode",
     "has_completed_onboarding": True,
     "ambient_thinking_phrase": None,
@@ -54,6 +55,9 @@ for key, default in LOCAL.items():
         result[key] = data[key]
     else:
         result[key] = default
+
+# openrouter is unused — never keep its last-model entry
+result["provider_model"].pop("openrouter", None)
 
 json.dump(result, sys.stdout, indent=2, ensure_ascii=False)
 sys.stdout.write("\n")

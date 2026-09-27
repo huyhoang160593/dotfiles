@@ -10,6 +10,7 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "ante:Ante (AI agent)" \
         "appimage_update_icon:AppManager (icon fix)" \
         "chezmoi:chezmoi (dotfile manager)" \
+        "mise:mise (runtime manager)" \
         "ufw:ufw (firewall)" \
         "fzf:fzf (fuzzy finder)" \
         "zoxide:zoxide (dir jumper)" \
@@ -20,6 +21,7 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "fastfetch:fastfetch (system info)" \
         "spf:superfile (TUI file manager)" \
         "gpu-screen-recorder:gpu-screen-recorder (screen recorder)" \
+        "easyeffects:EasyEffects (audio effects)" \
         "mime-tui:mime-tui (quản lý MIME type → ứng dụng)"
 
     set missing
