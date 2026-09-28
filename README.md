@@ -104,7 +104,7 @@ Nguồn plugin (khai báo trong `~/.config/noctalia/config.toml`, mục `[plugin
 | Terminal | Ghostty | Terminal emulator nhanh, hỗ trợ GPU rendering, minimalist UI | Thay thế Alacritty |
 | Trình duyệt | Helium | Trình duyệt nhẹ, chạy dạng AppImage | Quản lý bởi AppManager |
 | Shell | fish | Shell chính; tất cả function viết cho fish, không phải bash | |
-| Prompt | Starship + Stellar (quản lý theme) | Prompt đa nền tảng; Stellar quản lý theme | Bảng màu rose-pine; áp dụng với `stellar` |
+| Prompt | Starship + Stellar (quản lý theme) | Prompt đa nền tảng; Stellar tự sở hữu `~/.config/starship.toml` | Theme `presets/rose-pine-moon@1.0`, áp dụng thủ công — xem mục "Starship hiển thị prompt mặc định" |
 | WM | mangowm | Wayland compositor | Config trong `~/.config/mango/cfg/` |
 | Desktop Shell | Noctalia | Thanh trạng thái, panel, launcher, thông báo, màn hình khóa | |
 | Âm thanh | EasyEffects | Chỉnh âm loa laptop: EQ/compressor cho âm to, rõ hơn (PipeWire) | Autostart service-mode + preset cộng đồng — xem 2 mục EasyEffects bên dưới |
@@ -224,12 +224,13 @@ Nguồn plugin (khai báo trong `~/.config/noctalia/config.toml`, mục `[plugin
 - Chi tiết: [docs/research/gtk-hide-close-button.md](docs/research/gtk-hide-close-button.md) — **lưu ý**: phần đầu research kết luận "chỉ mutter/ gsdxsettings đọc key nên gsettings vô dụng" đã bị bổ sung ở đây: GTK4 thực ra đọc qua portal, vấn đề thật là backend keyfile.
 
 ### Starship hiển thị prompt mặc định
-- **Sự cố**: Starship prompt chưa được áp dụng theme stellar.
+- **Sự cố**: Starship chưa được áp dụng theme stellar (máy mới, hoặc `~/.config/starship.toml` chưa tồn tại). Theme không do chezmoi quản lý — mỗi máy tự áp dụng (xem [ADR-0002](docs/adr/0002-stellar-tu-so-huu-starship-config.md)).
 - **Cách sửa**:
   ```fish
-  stellar apply rose-pine@1.0  # hoặc theme của bạn
+  stellar apply presets/rose-pine-moon@1.0  # theme mặc định của setup này
   exec fish  # tải lại
   ```
+- **Phát hiện sớm**: chạy `check_tools` — stellar cài rồi nhưng chưa apply theme sẽ được báo thiếu kèm đúng lệnh trên.
 
 ---
 

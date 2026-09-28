@@ -9,6 +9,10 @@ docs
 # Không sync secrets/auth — API keys etc.
 .ante/auth
 
+# starship.toml + trạng thái stellar do stellar tự sở hữu (xem docs/adr/0002)
+.config/starship.toml
+.config/stellar
+
 # Ignore WM/DE configs when the corresponding binary is not installed
 {{- if ne .chezmoi.os "linux" }}
 # Non-Linux: ignore all WM-specific configs

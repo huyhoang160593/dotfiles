@@ -46,5 +46,4 @@ Trong buổi grill, team đã giải quyết nhiều quyết định nền tản
 - `docs/research/fish-config-best-practices.md` — ghi chú research cấu hình fish
 - `dot_config/private_fish/config.fish` — config fish chủ đạo trong repo dotfile
 - `dot_config/mango/cfg/env.conf` — biến môi trường mangowm
-- `dot_config/stellar/config.json` — trạng thái theme Stellar
-- `.config/starship.toml` — cấu hình prompt Starship
+- `docs/adr/0002-stellar-tu-so-huu-starship-config.md` — quyết định không quản lý starship config bằng chezmoi

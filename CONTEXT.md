@@ -34,10 +34,21 @@ Desktop shell cho Wayland, cung cấp bar, panel, launcher, thông báo, wallpap
 Login greeter đi kèm Noctalia; gọi bằng `noctalia-greeter-session`. Được chọn thay SDDM để đồng bộ giao diện với Noctalia desktop shell.
 
 **Stellar** (còn gọi là stella):
-Trình quản lý theme cho Starship. Lưu theme preset đang dùng (ví dụ: `presets/rose-pine@1.0`) và áp dụng lên `~/.config/starship.toml` qua CLI `stellar`.
+Trình quản lý theme cho Starship: tải theme từ stellar hub và áp dụng bằng symlink `~/.config/starship.toml`. Tự sở hữu toàn bộ trạng thái của nó trong `~/.config/stellar/`; chezmoi không quản lý (xem ADR-0002).
+
+**Theme mong muốn**:
+Theme + version mà bộ dotfiles này mặc định dùng cho Starship (hiện là `presets/rose-pine-moon@1.0`), khai báo trong README và áp dụng thủ công bằng `stellar apply`.
+_Avoid_: "config stellar"
+
+**Cache theme**:
+Bản sao theme đã tải từ stellar hub trong `~/.config/stellar/presets/`. Tái tạo được bằng `stellar apply`, không phải nguồn để quản lý.
+
+**Trạng thái cài đặt (stellar)**:
+Dữ liệu riêng của từng máy trong `~/.config/stellar/config.json`: `install_id`, hash, đường dẫn tuyệt đối. Không bao giờ đồng bộ giữa các máy.
+_Avoid_: "config stellar"
 
 **Starship**:
-Prompt đa nền tảng. Cấu hình với bảng màu rose-pine tùy chỉnh và layout segment trong `~/.config/starship.toml`.
+Prompt đa nền tảng. Cấu hình với bảng màu rose-pine tùy chỉnh và layout segment trong `~/.config/starship.toml` — file này do Stellar sở hữu dưới dạng symlink.
 
 **Ghostty**:
 Emulator terminal tăng tốc GPU (thay thế Alacritty). Cấu hình tối giản: font, kiểu cursor.

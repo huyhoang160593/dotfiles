@@ -1,7 +1,7 @@
 # ── PATH ──────────────────────────────────────────────────────
 fish_add_path -g ~/.local/bin
 fish_add_path -g ~/.ante/bin
-
+fish_add_path -g ~/.opencode/bin
 # ── Environment ───────────────────────────────────────────────
 set -gx BROWSER helium
 # Ghostty AppImage set GSETTINGS_BACKEND=keyfile (file .env trong bundle),
@@ -48,5 +48,3 @@ if status is-interactive
         fastfetch -c examples/12.jsonc
     end
 end
-
-

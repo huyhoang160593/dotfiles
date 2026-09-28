@@ -33,10 +33,13 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         set cmd $parts[1]
         set label $parts[2]
 
-        if type -q $cmd
-            set found (math $found + 1)
-        else
+        if not type -q $cmd
             set -a missing "$label (`$cmd`)"
+        else if test "$cmd" = "stellar"; and not test -e ~/.config/starship.toml
+            # Binary có nhưng chưa apply theme nào cũng coi là thiếu
+            set -a missing "$label (đã cài, chưa apply theme — `stellar apply presets/rose-pine-moon@1.0`)"
+        else
+            set found (math $found + 1)
         end
     end
 
