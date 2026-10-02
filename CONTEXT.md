@@ -81,7 +81,24 @@ Gói `cachyos-fish-config` (CachyOS repo) ship config fish mặc định. bị b
 Simple Desktop Display Manager. Rõ ràng không dùng; thay bằng Noctalia Greeter.
 
 **xdg-desktop-portal**:
-Portal implementation cho Wayland. Cấu hình qua `mango-portals.conf` dùng `wlr` cho screencast/screenshot và `gnome-keyring` cho secrets.
+Mặt tiền D-Bus điều phối yêu cầu desktop (screencast, screenshot, file chooser) tới backend phù hợp. Cấu hình qua `mango-portals.conf`.
+_Avoid_: gọi chung là "portal" khi đang nói tới backend cụ thể.
+
+**portal backend**:
+Daemon D-Bus thực thi một nhóm portal interface cho một họ compositor. Ví dụ `xdg-desktop-portal-wlr` cho wlroots/mango, `xdg-desktop-portal-gtk` cho file chooser, `xdg-desktop-portal-kde` cho Plasma.
+_Avoid_: "lib", "portal" chung chung.
+
+**picker**:
+Tool chọn nguồn share được portal backend gọi hộ khi app xin screencast. `slurp` chọn màn hình/vùng, `fuzzel`/`wofi`/`rofi` chọn theo danh sách window/output.
+_Avoid_: "lib".
+
+**tool (trong check_tools)**:
+Binary người dùng gõ trực tiếp được trên terminal (`type -q` thấy). Daemon portal trong `/usr/lib` hay `/usr/libexec` không phải tool theo nghĩa này.
+_Avoid_: nhét daemon D-Bus vào check_tools.
+
+**lib**:
+Chỉ file thư viện `.so` mà binary link tới. Không dùng cho daemon hay picker.
+_Avoid_: "lib portal", "lib picker".
 
 **LocalSend**:
 Công cụ chuyển file qua mạng local. Cần rule firewall `ufw` để cho phép kết nối đến.

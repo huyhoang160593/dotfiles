@@ -22,7 +22,14 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "spf:superfile (TUI file manager)" \
         "gpu-screen-recorder:gpu-screen-recorder (screen recorder)" \
         "easyeffects:EasyEffects (audio effects)" \
-        "mime-tui:mime-tui (quản lý MIME type → ứng dụng)"
+        "mime-tui:mime-tui (quản lý MIME type → ứng dụng)" \
+        "mango:Mango (compositor)" \
+        "mmsg:mmsg (mango IPC)" \
+        "pipewire:PipeWire (screen share backend)" \
+        "wireplumber:WirePlumber (pipewire session manager)" \
+        "grim:grim (screenshot backend)" \
+        "slurp:slurp (chọn màn hình)" \
+        "fuzzel:fuzzel (chọn window)"
 
     set missing
     set found 0
