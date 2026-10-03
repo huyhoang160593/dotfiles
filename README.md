@@ -89,6 +89,16 @@ Nguồn plugin (khai báo trong `~/.config/noctalia/config.toml`, mục `[plugin
 | `noctalia/screen_recorder` | official | Ghi màn hình bằng `gpu-screen-recorder` + replay buffer. Widget `recorder`: click trái = bật/tắt ghi, click phải = bắt đầu/dừng replay buffer, click giữa = lưu replay. Cần cài `gpu-screen-recorder` | widget `recorder` ở nhóm `end` của bar; setting `restore_portal = false` |
 | `dotnetrob/cat` | community | Mèo animation trong bar phản ánh tải CPU: ngủ khi idle, đi bộ khi CPU > 15% (`walk_threshold`), chạy khi > 60% (`run_threshold`); màu theo theme. Click vào widget hiện panel CPU % | widget `cat` ở nhóm `center` của bar, `cat_size = 34` |
 | `nightwatch75/dns-switcher` | community | Chuyển DNS hệ thống (Google, Cloudflare, OpenDNS, AdGuard, Quad9 hoặc tối đa 5 server custom) không ngắt kết nối, chạy qua `nmcli`; panel có sẵn test DNS lookup (`dig`/`nslookup`). Click trái = mở panel, click phải = reset về DNS ISP, scroll = chuyển provider | widget `dns_switcher_2` ở nhóm `start` của bar |
+| `vn1k/cursor` | community | Đổi cursor theme cho compositor + GTK + Qt/XWayland cùng lúc; import pack Windows, build từ PNG. Không có bar widget — thêm lên bar bằng `custom_button` với custom command (picker Home Shortcuts của Control Center không liệt kê shortcut plugin). Deps full experience: `check_cursor_stack`. Mango: cursor do `cursor.conf` own (đã xóa khỏi `appearance.conf`); `config.conf` là template `homeDir` cho portable đa username; `cursor.conf` + `90-xcursor.conf` + `.icons/default` do plugin own, không đưa vào chezmoi | custom button `Cursor_Plugin` ở nhóm `end` của bar:
+
+```toml
+[widget.Cursor_Plugin]
+glyph = "pointer-cog"
+type = "custom_button"
+
+    [widget.Cursor_Plugin.actions]
+    left = "exec noctalia msg panel-toggle vn1k/cursor:manager"
+``` |
 
 ### Nhập liệu tiếng Việt
 - Cài `fcitx5-lotus`
@@ -231,6 +241,20 @@ Nguồn plugin (khai báo trong `~/.config/noctalia/config.toml`, mục `[plugin
   exec fish  # tải lại
   ```
 - **Phát hiện sớm**: chạy `check_tools` — stellar cài rồi nhưng chưa apply theme sẽ được báo thiếu kèm đúng lệnh trên.
+
+### Icon fcitx5 biến mất khỏi tray (vẫn gõ được)
+- **Sự cố**: Khay `tray` trên bar không còn icon bàn phím fcitx5, nhưng `Alt+Space` vẫn chuyển được `keyboard-us`/`lotus`.
+- **Nguyên nhân**: Race lúc login — `fcitx5 -d` (mango `exec-once`) chạy trước khi Noctalia đăng ký `StatusNotifierWatcher`, module `notificationitem` (OnDemand) không đăng ký item. `fcitx5-remote -r` (reload config) không đủ để kích lại.
+- **Cách sửa** (restart process, ~2s mất gõ):
+  ```bash
+  fcitx5-remote -e; sleep 1; fcitx5 -d
+  ```
+  Xong bấm `Alt+Space` về lại `lotus` (restart reset về `keyboard-us`).
+- **Verify**: item fcitx5 có mặt trong watcher (đăng ký dạng path `:1.xxx/StatusNotifierItem`, không cần bus name riêng):
+  ```bash
+  busctl --user get-property org.kde.StatusNotifierWatcher /StatusNotifierWatcher org.kde.StatusNotifierWatcher RegisteredStatusNotifierItems
+  fcitx5-remote -n  # lotus
+  ```
 
 ---
 

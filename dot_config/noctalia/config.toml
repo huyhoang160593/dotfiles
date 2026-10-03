@@ -8,6 +8,7 @@ end = [
     "notifications",
     "clipboard",
     "recorder",
+    "Cursor_Plugin",
     "Spacer_2",
     "network",
     "bluetooth",
@@ -29,24 +30,6 @@ radius_top_left = 0
 radius_top_right = 0
 start = [ "Spacer", "launcher", "Spacer", "workspaces", "Spacer_2", "active_window", "Spacer_2", "dns_switcher_2" ]
 thickness = 40
-
-[[control_center.shortcuts]]
-type = "wifi"
-
-[[control_center.shortcuts]]
-type = "bluetooth"
-
-[[control_center.shortcuts]]
-type = "nightlight"
-
-[[control_center.shortcuts]]
-type = "notification"
-
-[[control_center.shortcuts]]
-type = "power_profile"
-
-[[control_center.shortcuts]]
-type = "vn1k/cursor:shortcut"
 
 [desktop_widgets]
 schema_version = 2
@@ -270,7 +253,7 @@ temperature_day = 10000
 restore_portal = false
 
 [plugins]
-enabled = [ "noctalia/screen_recorder", "dotnetrob/cat", "nightwatch75/dns-switcher" ]
+enabled = [ "noctalia/screen_recorder", "dotnetrob/cat", "nightwatch75/dns-switcher", "vn1k/cursor" ]
 
     [[plugins.source]]
     kind = "git"
@@ -285,7 +268,7 @@ enabled = [ "noctalia/screen_recorder", "dotnetrob/cat", "nightwatch75/dns-switc
 [shell]
 avatar_path = "/home/the99spuppycat/Downloads/puppycat-pixel.jpg"
 font_family = "Maple Mono NF"
-lang = "vi"
+lang = ""
 password_style = "random"
 polkit_agent = true
 settings_show_advanced = true
@@ -305,6 +288,7 @@ wallpaper_scheme = "m3-fruit-salad"
 
     [theme.templates]
     builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "mango", "qt" ]
+    community_ids = [ "fcitx5" ]
 
 [wallpaper.default]
 path = "/home/the99spuppycat/Pictures/northernlight.jpeg"
@@ -314,6 +298,13 @@ path = "/home/the99spuppycat/Pictures/northernlight.jpeg"
 
 [wallpaper.monitors.eDP-1]
 path = "/home/the99spuppycat/Pictures/northernlight.jpeg"
+
+[widget.Cursor_Plugin]
+glyph = "pointer-cog"
+type = "custom_button"
+
+    [widget.Cursor_Plugin.actions]
+    left = "exec noctalia msg panel-toggle vn1k/cursor:manager"
 
 [widget.Spacer]
 length = 10

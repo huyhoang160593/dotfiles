@@ -126,5 +126,16 @@ _Avoid_: "cài full cursor" (không rõ gồm những gì)
 Chỉ `python3` (engine `bin/curmgr.py` đi kèm plugin). Đủ để list và apply theme; import/build báo thiếu thay vì fail giữa chừng, thiếu `zenity` thì gõ path tay.
 _Avoid_: "cursor cơ bản"
 
+**cursor layer**:
+Một trong 6 nơi plugin Cursor `vn1k/cursor` đồng bộ theme về: compositor (`cursor.conf`), `gsettings`, `gtk3`, `gtk4`, `xdg_default` (`~/.icons/default`), `environment` (`90-xcursor.conf`).
+_Avoid_: "theme" chung chung khi đang nói cursor
+
+**consistent (cursor)**:
+`curmgr.py current` báo `true` khi cả 6 cursor layer cùng một theme và không lớp nào trống. Panel báo drift khi ngược lại.
+_Avoid_: "đồng bộ" chung chung
+
+**cursor.conf (mango)**:
+File cursor của Mango do plugin own, không do chezmoi quản lý. `appearance.conf` không giữ `cursor_theme`/`cursor_size` để tránh 2 nguồn truth; `config.conf` chèn `source=` tới file này bằng template `homeDir` cho portable đa username.
+
 ---
 _Nên tránh_: "Alacritty" (đã thay bằng Ghostty), "Firefox" (đã thay bằng Helium), "SDDM" (đã thay bằng Noctalia Greeter), "cachyos-fish-config" (xung đột với chezmoi).
