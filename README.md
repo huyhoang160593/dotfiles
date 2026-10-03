@@ -104,6 +104,7 @@ type = "custom_button"
 
 Nguồn tham khảo plugin Cursor:
 - [Cursor plugin page](https://noctalia.dev/plugins/community/cursor) (entries `manager`/`shortcut`, deps full experience)
+- [Custom cursor](https://vsthemes.org/en/cursors/) — nguồn theme cursor custom (tải về rồi `Install theme` trong panel; theme file nằm local `~/.local/share/icons/`, không sync qua chezmoi — máy mới tự cài + Apply tại chỗ)
 - [Control Center Shortcuts docs](https://docs.noctalia.dev/noctalia/control-center/shortcuts/) (chỉ liệt kê built-in — plugin shortcut phải thêm tay via TOML)
 - [community-plugins#880](https://github.com/noctalia-dev/community-plugins/issues/880) (panel-only plugins thiếu `[[widget]]`, gồm `vn1k/cursor`)
 
