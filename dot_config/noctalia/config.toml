@@ -30,6 +30,24 @@ radius_top_right = 0
 start = [ "Spacer", "launcher", "Spacer", "workspaces", "Spacer_2", "active_window", "Spacer_2", "dns_switcher_2" ]
 thickness = 40
 
+[[control_center.shortcuts]]
+type = "wifi"
+
+[[control_center.shortcuts]]
+type = "bluetooth"
+
+[[control_center.shortcuts]]
+type = "nightlight"
+
+[[control_center.shortcuts]]
+type = "notification"
+
+[[control_center.shortcuts]]
+type = "power_profile"
+
+[[control_center.shortcuts]]
+type = "vn1k/cursor:shortcut"
+
 [desktop_widgets]
 schema_version = 2
 widget_order = []
