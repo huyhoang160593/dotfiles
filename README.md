@@ -258,6 +258,22 @@ type = "custom_button"
   fcitx5-remote -n  # lotus
   ```
 
+### Template community mới thêm không render (set trùng scheme = no-op)
+- **Sự cố**: Thêm id mới vào `theme.templates.community_ids` (vd `fcitx5`) rồi `color-scheme-set` lại đúng scheme đang dùng → template không render (không có `themes/noctalia/theme.conf`, `classicui.conf` chưa tạo).
+- **Nguyên nhân**: Set trùng giá trị là no-op, Noctalia không render lại.
+- **Cách sửa**: Toggle scheme đi-về để ép render (vd `builtin Noctalia` rồi về `wallpaper m3-fruit-salad`):
+  ```bash
+  noctalia msg color-scheme-set builtin Noctalia
+  noctalia msg color-scheme-set wallpaper m3-fruit-salad
+  ```
+- **Verify**: `ls ~/.local/share/fcitx5/themes/noctalia/` có `theme.conf`; `chezmoi status` vẫn clean (render trùng nội dung).
+
+### Icon trong app Qt (Fcitx5 Settings) chìm vào nền tối
+- **Sự cố**: Nút OK/Apply/phím tắt trong `fcitx5-config-qt` có icon nhưng đen chìm vào nền tối; khung app (chữ/nền) vẫn đúng palette.
+- **Nguyên nhân**: Template Noctalia `qt` chỉ render file **màu** (`qt6ct/colors/noctalia.conf`), không đụng `qt6ct.conf` — dòng `icon_theme=breeze` (glyph tối) gặp palette tối. App này là Qt6 nên chỉ đọc `qt6ct`.
+- **Cách sửa**: `icon_theme=breeze` → `breeze-dark` trong `~/.config/qt6ct/qt6ct.conf`, tắt mở lại app (Qt đọc icon theme lúc start).
+- **Sync**: file đã vào chezmoi dạng template (`homeDir` cho `color_scheme_path`, lược `[SettingsWindow]` geometry để khỏi nhiễu `chezmoi status`). Đổi sang light mode thì sửa ngược lại thành `breeze`.
+
 ---
 
 ## Biến môi trường (mangowm env.conf)
