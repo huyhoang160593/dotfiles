@@ -102,6 +102,11 @@ type = "custom_button"
     left = "exec noctalia msg panel-toggle vn1k/cursor:manager"
 ```
 
+Nguồn tham khảo plugin Cursor:
+- [Cursor plugin page](https://noctalia.dev/plugins/community/cursor) (entries `manager`/`shortcut`, deps full experience)
+- [Control Center Shortcuts docs](https://docs.noctalia.dev/noctalia/control-center/shortcuts/) (chỉ liệt kê built-in — plugin shortcut phải thêm tay via TOML)
+- [community-plugins#880](https://github.com/noctalia-dev/community-plugins/issues/880) (panel-only plugins thiếu `[[widget]]`, gồm `vn1k/cursor`)
+
 ### Nhập liệu tiếng Việt
 - Cài `fcitx5-lotus`
 - Xem hướng dẫn cài đặt chi tiết cho từng hệ điều hành tại: https://lotusinputmethod.github.io/#installation
@@ -267,12 +272,14 @@ type = "custom_button"
   noctalia msg color-scheme-set wallpaper m3-fruit-salad
   ```
 - **Verify**: `ls ~/.local/share/fcitx5/themes/noctalia/` có `theme.conf`; `chezmoi status` vẫn clean (render trùng nội dung).
+- **Nguồn tham khảo**: [Template Reference](https://docs.noctalia.dev/noctalia/theming/templates/) (cú pháp template, hooks, render), [App Theming](https://docs.noctalia.dev/noctalia/theming/app-theming/) (áp màu Noctalia ra file config app)
 
 ### Icon trong app Qt (Fcitx5 Settings) chìm vào nền tối
 - **Sự cố**: Nút OK/Apply/phím tắt trong `fcitx5-config-qt` có icon nhưng đen chìm vào nền tối; khung app (chữ/nền) vẫn đúng palette.
 - **Nguyên nhân**: Template Noctalia `qt` chỉ render file **màu** (`qt6ct/colors/noctalia.conf`), không đụng `qt6ct.conf` — dòng `icon_theme=breeze` (glyph tối) gặp palette tối. App này là Qt6 nên chỉ đọc `qt6ct`.
 - **Cách sửa**: `icon_theme=breeze` → `breeze-dark` trong `~/.config/qt6ct/qt6ct.conf`, tắt mở lại app (Qt đọc icon theme lúc start).
 - **Sync**: file đã vào chezmoi dạng template (`homeDir` cho `color_scheme_path`, lược `[SettingsWindow]` geometry để khỏi nhiễu `chezmoi status`). Đổi sang light mode thì sửa ngược lại thành `breeze`.
+- **Nguồn tham khảo**: [GTK and Qt Applications template](https://docs.noctalia.dev/noctalia/templates/official/gtk-qt/) (template `qt` chỉ render file màu `colors/noctalia.conf` — `qt6ct.conf` như `icon_theme` nằm ngoài phạm vi nó quản lý)
 
 ---
 
