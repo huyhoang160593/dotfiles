@@ -333,6 +333,8 @@ Các function fish do chezmoi quản lý, đặt tại `~/.config/fish/private_f
 |---|---|---|
 | `appimage_update_icon` | Di chuyển icon PNG từ `~/.local/share/icons/` về `hicolor/256x256/apps/`, cập nhật GTK icon cache & desktop database | `appimage_update_icon` |
 | `check_tools` | Kiểm tra tất cả tool trong bộ công cụ đã cài đặt chưa, liệt kê cái còn thiếu | `check_tools` |
+| `check_mango_stack` | Kiểm tra stack mango: portal package đã cài và service có chạy không | `check_mango_stack` |
+| `check_cursor_stack` | Kiểm tra deps full experience của plugin Cursor vn1k/cursor (win2xcur, python-wand, imagemagick, zenity) | `check_cursor_stack` |
 | `lazygit_generate_msg` | Wrapper cho script AI commit message, delegate tới `~/.local/bin/lazygit-generate-msg` | `lazygit_generate_msg [direct\|push\|clipboard\|undo]` |
 
 ### Per-system config (conf.d)

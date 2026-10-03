@@ -118,5 +118,13 @@ CLI tiện ích: fuzzy finder, nhảy thư mục, ls thay thế hiện đại, t
 **fastfetch**:
 Công cụ hiển thị thông tin hệ thống khi mở shell (thay thế neofetch, nhanh hơn). Dùng preset `examples/12.jsonc` (tên preset, không cần đường dẫn đầy đủ). Chạy khi interactive session bắt đầu.
 
+**full experience (cursor)**:
+Bốn deps để plugin Cursor `vn1k/cursor` dùng hết tính năng theo doc của nó: `win2xcur` (preview, import pack Windows `.cur`/`.ani`, build theme), `python-wand` (resize/render ảnh), `imagemagick` (lib mà `wand` bind tới), `zenity` (nút Folder… browse). Kiểm tra bằng `check_cursor_stack`.
+_Avoid_: "cài full cursor" (không rõ gồm những gì)
+
+**minimal (cursor)**:
+Chỉ `python3` (engine `bin/curmgr.py` đi kèm plugin). Đủ để list và apply theme; import/build báo thiếu thay vì fail giữa chừng, thiếu `zenity` thì gõ path tay.
+_Avoid_: "cursor cơ bản"
+
 ---
 _Nên tránh_: "Alacritty" (đã thay bằng Ghostty), "Firefox" (đã thay bằng Helium), "SDDM" (đã thay bằng Noctalia Greeter), "cachyos-fish-config" (xung đột với chezmoi).
