@@ -8,6 +8,7 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "fresh:Fresh (TUI dashboard)" \
         "zellij:Zellij (session manager)" \
         "ante:Ante (AI agent)" \
+        "opencode:OpenCode (AI agent - terminal)" \
         "appimage_update_icon:AppManager (icon fix)" \
         "chezmoi:chezmoi (dotfile manager)" \
         "mise:mise (runtime manager)" \

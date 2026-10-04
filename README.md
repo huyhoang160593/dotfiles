@@ -45,6 +45,10 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
 - Chứa `api_keys.json` lưu API key để Ante gọi AI provider (OpenAI, Anthropic...)
 - Format: `{ "openai": "sk-...", "anthropic": "sk-ant-..." }`
 
+**Secrets — `~/.config/opencode/service.json`** (không đưa vào chezmoi source):
+- File này **không sync** — mỗi máy giữ riêng
+- Chứa `password` của background service OpenCode
+
 **Mẹo viết Go template chezmoi (áp dụng cho tất cả `.tmpl`):**
 - `{{- ... -}}` xóa khoảng trắng 2 đầu dòng — useful cho code inline, nhưng **cẩn thận**: nó cũng xóa newline, dễ làm 2 dòng content dính vào nhau
 - Comment: dùng `#` cho tất cả file template — đơn giản, an toàn, không gây lỗi trim
@@ -129,7 +133,7 @@ Nguồn tham khảo plugin Cursor:
 | Greeter | Noctalia Greeter | Màn hình đăng nhập (không dùng SDDM) | |
 | Dashboard TUI | Fresh | Dashboard terminal | |
 | Quản lý session | Zellij | Tab, pane, layout cho terminal | |
-| AI | Ante | Lightweight, ít lỗi hơn Claude Code/Codex | |
+| AI | Ante, OpenCode | Ante lightweight; OpenCode là terminal agent | OpenCode `cli.json` (attention notifications + sound) do chezmoi sync; `service.json` không sync vì chứa password |
 | Quản lý AppImage | AppManager | Cài đặt và quản lý AppImage | Dùng `appimage_update_icon` để sửa icon |
 | Quản lý runtime | mise | Quản lý phiên bản runtime (node, python, go...) theo project | Activate trong `config.fish` có guard `type -q` — xem mục mise bên dưới |
 | CLI tiện ích | fzf, zoxide, eza, tealdeer, bat | Fuzzy finder, nhảy thư mục, ls replacement, tldr, cat replacement | eza dùng `--icons=auto` |
