@@ -219,7 +219,7 @@ Nguồn tham khảo plugin Cursor:
 
 ### Icon AppImage bị hỏng
 - **Sự cố**: Icon không hiển thị trong launcher/menu desktop sau khi tích hợp AppManager.
-- **Nguyên nhân**: Icon đặt sai thư mục hicolor; cache GTK/desktop chưa được làm mới.
+- **Nguyên nhân**: Icon đặt sai thư mục hicolor (PNG lẻ ở `~/.local/share/icons/` thay vì `hicolor/256x256/apps/`, SVG lẻ như Vesktop thay vì `hicolor/scalable/apps/`); cache GTK/desktop chưa được làm mới.
 - **Cách sửa**: Chạy function fish `appimage_update_icon`:
   ```fish
   appimage_update_icon
@@ -381,7 +381,7 @@ Các function fish do chezmoi quản lý, đặt tại `~/.config/fish/private_f
 
 | Function | Mô tả | Cách dùng |
 |---|---|---|
-| `appimage_update_icon` | Di chuyển icon PNG từ `~/.local/share/icons/` về `hicolor/256x256/apps/`, cập nhật GTK icon cache & desktop database | `appimage_update_icon` |
+| `appimage_update_icon` | Di chuyển icon lẻ từ `~/.local/share/icons/` về đúng chỗ (PNG → `hicolor/256x256/apps/`, SVG như Vesktop → `hicolor/scalable/apps/`), cập nhật GTK icon cache & desktop database | `appimage_update_icon` |
 | `check_tools` | Kiểm tra tất cả tool trong bộ công cụ đã cài đặt chưa, liệt kê cái còn thiếu | `check_tools` |
 | `check_mango_stack` | Kiểm tra stack mango: portal package đã cài và service có chạy không | `check_mango_stack` |
 | `check_cursor_stack` | Kiểm tra deps full experience của plugin Cursor vn1k/cursor (win2xcur, python-wand, imagemagick, zenity) | `check_cursor_stack` |

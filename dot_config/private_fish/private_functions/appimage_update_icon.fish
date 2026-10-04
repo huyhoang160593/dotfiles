@@ -1,6 +1,7 @@
 function appimage_update_icon --description 'Sắp xếp icon từ AppImage về thư mục hicolor và cập nhật cache hệ thống'
     set -l base_icons "$HOME/.local/share/icons"
     set -l target_dir "$base_icons/hicolor/256x256/apps"
+    set -l target_svg "$base_icons/hicolor/scalable/apps"
     set -l apps_dir "$HOME/.local/share/applications"
 
     # Color helpers
@@ -9,8 +10,8 @@ function appimage_update_icon --description 'Sắp xếp icon từ AppImage về
     set -l c_cyan (set_color cyan)
     set -l c_reset (set_color normal)
 
-    # 1. Create hicolor app directory
-    mkdir -p "$target_dir"
+    # 1. Create hicolor app directories (PNG raster + SVG scalable)
+    mkdir -p "$target_dir" "$target_svg"
 
     # 2. Check and copy standalone PNG files
     set -l png_files (path filter -f "$base_icons"/*.png)
@@ -19,6 +20,15 @@ function appimage_update_icon --description 'Sắp xếp icon từ AppImage về
         echo -e "[$c_green OK $c_reset] Copied $c_cyan"(count $png_files)"$c_reset icon(s) to $target_dir"
     else
         echo -e "[$c_yellow SKIP $c_reset] No standalone .png files found in $base_icons"
+    end
+
+    # 2b. Check and copy standalone SVG files (e.g. Vesktop ships vesktop.svg)
+    set -l svg_files (path filter -f "$base_icons"/*.svg)
+    if test (count $svg_files) -gt 0
+        mv $svg_files "$target_svg/"
+        echo -e "[$c_green OK $c_reset] Copied $c_cyan"(count $svg_files)"$c_reset icon(s) to $target_svg"
+    else
+        echo -e "[$c_yellow SKIP $c_reset] No standalone .svg files found in $base_icons"
     end
 
     # 3. Rebuild system caches
