@@ -247,7 +247,8 @@ widget_order = [
 
 [nightlight]
 enabled = true
-temperature_day = 10000
+temperature_day = 4100
+temperature_night = 2700
 
 [plugin_settings."noctalia/screen_recorder"]
 restore_portal = false
