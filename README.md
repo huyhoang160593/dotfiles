@@ -124,7 +124,7 @@ Nguồn tham khảo plugin Cursor:
 | Hạng mục | Công cụ | Mô tả | Ghi chú / Fix |
 |---|---|---|---|
 | Terminal | Ghostty | Terminal emulator nhanh, hỗ trợ GPU rendering, minimalist UI | Thay thế Alacritty |
-| Trình duyệt | Helium | Trình duyệt nhẹ, chạy dạng AppImage | Quản lý bởi AppManager |
+| Trình duyệt | Helium | Trình duyệt nhẹ, chạy dạng AppImage | Quản lý bởi AppManager; cần gnome-keyring (Secret Service) nếu không reboot là mất login — xem sự cố bên dưới |
 | Shell | fish | Shell chính; tất cả function viết cho fish, không phải bash | |
 | Prompt | Starship + Stellar (quản lý theme) | Prompt đa nền tảng; Stellar tự sở hữu `~/.config/starship.toml` | Theme `presets/rose-pine-moon@1.0`, áp dụng thủ công — xem mục "Starship hiển thị prompt mặc định" |
 | WM | mangowm | Wayland compositor | Config trong `~/.config/mango/cfg/` |
@@ -244,6 +244,23 @@ Nguồn tham khảo plugin Cursor:
 - **Verify**: portal Read trả `':'`; `gtk4-query-settings 2>&1 | grep decoration` = `":"` (khi portal tắt); mở Loupe không còn nút X.
 - **Giới hạn**: nút đóng trong `AdwDialog` của libadwaita **luôn hiện** bất kể layout ("regardless of the system button layout") — không override được từ user side.
 - Chi tiết: [docs/research/gtk-hide-close-button.md](docs/research/gtk-hide-close-button.md) — **lưu ý**: phần đầu research kết luận "chỉ mutter/ gsdxsettings đọc key nên gsettings vô dụng" đã bị bổ sung ở đây: GTK4 thực ra đọc qua portal, vấn đề thật là backend keyfile.
+
+### Helium mất login sau reboot (thiếu Secret Service)
+- **Sự cố**: Mỗi lần reboot phải login lại mọi web, nhưng bookmark/history/profile `Puppycat` vẫn còn.
+- **Nguyên nhân**: Helium (Chromium, profile `~/.config/net.imput.helium/`) mã hóa cookie/password qua `os_crypt`, cần D-Bus `org.freedesktop.secrets`. Máy không có provider nào (gnome-keyring bị mask `-> /dev/null` + override `ExecStart=/bin/false` + autostart `Hidden=true`, kwallet không chạy) → `Local State` thiếu `os_crypt.encrypted_key` (`portal.prev_init_success=false`) → cookie cũ không giải mã được. Profile không bị xóa, không nằm trên tmpfs.
+- **Cách sửa (đã apply)**:
+  1. Gỡ mask user-level: xóa symlink `gnome-keyring-daemon.{service,socket} -> /dev/null`, 2 thư mục override `dbus-*/org.*secrets*.service.d`, 2 file autostart `gnome-keyring-*.desktop`; `systemctl --user enable --now gnome-keyring-daemon.socket`.
+  2. Auto-unlock qua greetd (file ngoài chezmoi, sửa bằng sudo 1 lần):
+     ```bash
+     sudo tee -a /etc/pam.d/greetd >/dev/null <<'EOF'
+     auth optional pam_gnome_keyring.so
+     session optional pam_gnome_keyring.so auto_start
+     EOF
+     ```
+  3. Mango `autostart.conf` (chezmoi sync): `exec-once = gnome-keyring-daemon --start --components=secrets,ssh,pkcs11 &` để daemon chạy ngay cả khi socket chưa trigger.
+  4. Mật khẩu keyring `~/.local/share/keyrings/Default.keyring` phải trùng mật login; nếu lệch thì `rm` file đó cho tạo lại ở login tới, rồi mở Helium login lại 1 lần cuối để mã hóa lại cookie.
+- **Verify**: `dbus-send ... ListNames | grep secrets` thấy `org.freedesktop.secrets`; `Local State` có `os_crypt.encrypted_key`; reboot không mất login nữa.
+- Chi tiết: [ADR-0004](docs/adr/0004-helium-gnome-keyring-auto-unlock.md), thuật ngữ `Secret Service / gnome-keyring / os_crypt` trong [CONTEXT.md](CONTEXT.md).
 
 ### Starship hiển thị prompt mặc định
 - **Sự cố**: Starship chưa được áp dụng theme stellar (máy mới, hoặc `~/.config/starship.toml` chưa tồn tại). Theme không do chezmoi quản lý — mỗi máy tự áp dụng (xem [ADR-0002](docs/adr/0002-stellar-tu-so-huu-starship-config.md)).

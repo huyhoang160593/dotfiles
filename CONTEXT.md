@@ -54,7 +54,20 @@ Prompt đa nền tảng. Cấu hình với bảng màu rose-pine tùy chỉnh v�
 Emulator terminal tăng tốc GPU (thay thế Alacritty). Cấu hình tối giản: font, kiểu cursor.
 
 **Helium**:
-Trình duyệt dựa trên Chromium (thay thế Firefox). Chạy dạng AppImage quản lý bởi AppManager.
+Trình duyệt dựa trên Chromium (thay thế Firefox). Chạy dạng AppImage quản lý bởi AppManager. Mã hóa cookie/password qua `os_crypt`, bắt buộc cần Secret Service đang chạy; không có thì reboot là phải login lại dù profile còn nguyên.
+_Avoid_: "helium browser chung chung khi đang nói profile `net.imput.helium`"
+
+**Secret Service**:
+API D-Bus `org.freedesktop.secrets` để app lưu secret mã hóa. Chỉ một provider giữ tên này tại một thời điểm.
+_Avoid_: "keyring chung chung"
+
+**gnome-keyring**:
+Provider Secret Service dùng trên mangowm. Chạy qua systemd user socket `gnome-keyring-daemon.socket`, unlock bằng PAM lúc login.
+_Avoid_: "kwallet" (stack KDE, không dùng ở đây), "password-store=basic" (không mã hóa, chỉ để test)
+
+**os_crypt**:
+Cơ chế Chromium mã hóa cookie/password bằng key trong Secret Service. `Local State` có `os_crypt.encrypted_key` nghĩa là init thành công; `portal.prev_init_success=false` nghĩa là thất bại.
+_Avoid_: "cookie bị xóa"
 
 **Zellij**:
 Trình quản lý session terminal (tab, pane, layout).
