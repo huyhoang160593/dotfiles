@@ -1,0 +1,16 @@
+{
+  "mcp": {
+    "servers": {
+      "bladebro": {
+        "type": "local",
+        "command": [
+          "bladebro",
+          "mcp"
+        ]{{- $helium := lookPath "helium" }}{{- if $helium }},
+        "environment": {
+          "CHROME_PATH": "{{ $helium }}"
+        }{{- end }}
+      }
+    }
+  }
+}
