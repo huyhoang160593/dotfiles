@@ -132,7 +132,7 @@ Nguồn tham khảo plugin Cursor:
 | Âm thanh | EasyEffects | Chỉnh âm loa laptop: EQ/compressor cho âm to, rõ hơn (PipeWire) | Autostart service-mode + preset cộng đồng — xem 2 mục EasyEffects bên dưới |
 | Greeter | Noctalia Greeter | Màn hình đăng nhập (không dùng SDDM) | |
 | Dashboard TUI | Fresh | Dashboard terminal | |
-| Quản lý session | Zellij | Tab, pane, layout cho terminal | |
+| Quản lý session | Tuios | Terminal window manager: tiling, workspace, session daemon (detach vẫn chạy, multi-client) | Config `~/.config/tuios/config.toml` chezmoi sync |
 | AI | Ante, OpenCode, Bladebro | Ante lightweight; OpenCode là terminal agent; Bladebro là browser cho AI agent (MCP 5 tools) | Bladebro cài bằng `npm install -g bladebro`, lái Helium qua `CHROME_PATH`; MCP `opencode.json` do chezmoi sync (template `lookPath`, máy không có Helium thì bỏ block env) |
 | Quản lý AppImage | AppManager | Cài đặt và quản lý AppImage | Dùng `appimage_update_icon` để sửa icon |
 | Quản lý runtime | mise | Quản lý phiên bản runtime (node, python, go...) theo project | Activate trong `config.fish` có guard `type -q` — xem mục mise bên dưới |

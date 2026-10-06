@@ -69,8 +69,9 @@ _Avoid_: "kwallet" (stack KDE, không dùng ở đây), "password-store=basic" (
 Cơ chế Chromium mã hóa cookie/password bằng key trong Secret Service. `Local State` có `os_crypt.encrypted_key` nghĩa là init thành công; `portal.prev_init_success=false` nghĩa là thất bại.
 _Avoid_: "cookie bị xóa"
 
-**Zellij**:
-Trình quản lý session terminal (tab, pane, layout).
+**Tuios**:
+Terminal window manager / multiplexer, đảm nhận vai trò tmux (tiling, workspace, session daemon persist khi detach, multi-client, Inbox cho agent trong pane). Binary `tuios`. Config `~/.config/tuios/config.toml` do chezmoi sync.
+_Avoid_: "tmux" (dùng Tuios).
 
 **Fresh**:
 Dashboard / trình khởi chạy ứng dụng TUI.
@@ -151,4 +152,4 @@ _Avoid_: "đồng bộ" chung chung
 File cursor của Mango do plugin own, không do chezmoi quản lý. `appearance.conf` không giữ `cursor_theme`/`cursor_size` để tránh 2 nguồn truth; `config.conf` chèn `source=` tới file này bằng template `homeDir` cho portable đa username.
 
 ---
-_Nên tránh_: "Alacritty" (đã thay bằng Ghostty), "Firefox" (đã thay bằng Helium), "SDDM" (đã thay bằng Noctalia Greeter), "cachyos-fish-config" (xung đột với chezmoi).
+_Nên tránh_: "Alacritty" (đã thay bằng Ghostty), "Firefox" (đã thay bằng Helium), "SDDM" (đã thay bằng Noctalia Greeter), "tmux" (đã thay bằng Tuios), "cachyos-fish-config" (xung đột với chezmoi).

@@ -6,7 +6,7 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "starship:Starship (prompt)" \
         "stellar:Stellar (quản lý theme)" \
         "fresh:Fresh (TUI dashboard)" \
-        "zellij:Zellij (session manager)" \
+        "tuios:Tuios (terminal window manager - tiling, session daemon)" \
         "ante:Ante (AI agent)" \
         "opencode:OpenCode (AI agent - terminal)" \
         "bladebro:Bladebro (browser cho AI agent)" \
