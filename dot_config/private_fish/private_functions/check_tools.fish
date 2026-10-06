@@ -9,6 +9,7 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         "zellij:Zellij (session manager)" \
         "ante:Ante (AI agent)" \
         "opencode:OpenCode (AI agent - terminal)" \
+        "bladebro:Bladebro (browser cho AI agent)" \
         "appimage_update_icon:AppManager (icon fix)" \
         "chezmoi:chezmoi (dotfile manager)" \
         "mise:mise (runtime manager)" \
@@ -41,7 +42,10 @@ function check_tools --description 'Kiểm tra các tool cần thiết đã cài
         set cmd $parts[1]
         set label $parts[2]
 
-        if not type -q $cmd
+        if test "$cmd" = "bladebro"; and not type -q $cmd
+            # npm global không theo PM hệ thống nên báo kèm lệnh cài
+            set -a missing "$label (chưa cài — `npm install -g bladebro`)"
+        else if not type -q $cmd
             set -a missing "$label (`$cmd`)"
         else if test "$cmd" = "stellar"; and not test -e ~/.config/starship.toml
             # Binary có nhưng chưa apply theme nào cũng coi là thiếu

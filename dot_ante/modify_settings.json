@@ -33,6 +33,7 @@ SYNCED = {
     "render_mode": "inline",
     "status_line": None,
     "status_line_command": {"command": "~/.ante/statusline.sh", "padding": 1},
+    "mcp_servers": {"bladebro": {"command": "bladebro", "args": ["mcp"]}},
 }
 
 # Per-machine fields — preserved if present, default if missing

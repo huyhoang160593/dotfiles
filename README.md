@@ -133,7 +133,7 @@ Nguồn tham khảo plugin Cursor:
 | Greeter | Noctalia Greeter | Màn hình đăng nhập (không dùng SDDM) | |
 | Dashboard TUI | Fresh | Dashboard terminal | |
 | Quản lý session | Zellij | Tab, pane, layout cho terminal | |
-| AI | Ante, OpenCode | Ante lightweight; OpenCode là terminal agent | OpenCode `cli.json` (attention notifications + sound) do chezmoi sync; `service.json` không sync vì chứa password |
+| AI | Ante, OpenCode, Bladebro | Ante lightweight; OpenCode là terminal agent; Bladebro là browser cho AI agent (MCP 5 tools) | Bladebro cài bằng `npm install -g bladebro`, lái Helium qua `CHROME_PATH`; MCP `opencode.json` do chezmoi sync (template `lookPath`, máy không có Helium thì bỏ block env) |
 | Quản lý AppImage | AppManager | Cài đặt và quản lý AppImage | Dùng `appimage_update_icon` để sửa icon |
 | Quản lý runtime | mise | Quản lý phiên bản runtime (node, python, go...) theo project | Activate trong `config.fish` có guard `type -q` — xem mục mise bên dưới |
 | CLI tiện ích | fzf, zoxide, eza, tealdeer, bat | Fuzzy finder, nhảy thư mục, ls replacement, tldr, cat replacement | eza dùng `--icons=auto` |
