@@ -133,10 +133,10 @@ modal_dim = 30
 whichkey_position = ''
 window_title_position = 'top'
 hide_clock = false
-show_clock = false
-show_cpu = false
-show_ram = false
-theme = ''
+show_clock = true
+show_cpu = true
+show_ram = true
+theme = 'tokyonight'
 border_focused_color = ''
 border_unfocused_color = ''
 window_title_format = ''
@@ -144,8 +144,9 @@ zoom_max_width = 0
 niri_reverse_scroll = false
 niri_scroll_cells = 8
 prefix_repeat_time = 500
-max_fps = 0
+max_fps = 90
 dock_workspace_tab_format = ''
+dock_pill_caps = false
 glyphs = 'default'
 gap = 0
 tiling_scheme = 'spiral'
@@ -205,6 +206,7 @@ warning_duration = 0
 error_duration = 0
 
 [notifications.agent]
+sound = true
 sound_mode = ''
 command = ''
 quiet_hours = ''
@@ -598,7 +600,7 @@ autorun = 'ask'
 auto_review = false
 
 [debug]
-show_key_events = false
+show_key_events = true
 
 [screenshot]
 format = 'png'
@@ -616,6 +618,7 @@ idle_minutes = 10
 effect = 'random'
 
 [spotlight]
+enabled = false
 follow = 'mouse'
 radius = 10
 dim = 75
