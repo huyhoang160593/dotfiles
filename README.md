@@ -66,12 +66,13 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
 - **Đã chọn**: mangowm
 - **Đã bỏ chọn**: ❌ SDDM (login manager) — dùng Noctalia Greeter thay thế để đồng bộ giao diện
 - **Env vars**: QT_QPA_PLATFORMTHEME, QT_QPA_PLATFORMTHEME_QT6, PATH, BROWSER — đã cấu hình sẵn trong `~/.config/mango/cfg/env.conf` (chezmoi sync). Một số env (như `BROWSER`) cần set ở cả env.conf lẫn `config.fish` — xem mục "Biến môi trường" bên dưới.
+- **Tên key config**: mango 0.18.0 đổi tên hàng loạt key sang snake_case (`exec-once`→`exec_once`, `windowrule`→`window_rule`, `gappih`→`gap_inner_horizontal`, ...). Config trong repo đã migrate; máy mới cài lại không cần làm gì. Kiểm tra bằng `check_mango_config`; chi tiết breaking change: [docs/research/mango-0.18-config-key-rename.md](docs/research/mango-0.18-config-key-rename.md).
 
 ### Autostart khi login (mango autostart.conf)
 - File: `~/.config/mango/cfg/autostart.conf` (chezmoi sync), chạy lúc compositor khởi động.
 - **EasyEffects phải tự chạy khi login** (service mode: chạy nền, không mở cửa sổ) — dùng để chỉnh âm loa laptop (to, rõ hơn); thiếu thì âm quay về mặc định cho tới khi tự mở app.
 - **Lưu ý**: EasyEffects có autostart riêng qua `~/.config/autostart/com.github.wwmm.easyeffects.desktop` (systemd unit `app-...@autostart.service`) — file này từng biến mất nên app không tự chạy; hiện dựa vào mango `autostart.conf`, không cần file đó.
-- Sửa `autostart.conf` xong cần **re-login** (exec-once chỉ chạy lúc compositor start).
+- Sửa `autostart.conf` xong cần **re-login** (exec_once chỉ chạy lúc compositor start).
 
 ### EasyEffects — preset
 - EasyEffects cài mới **không kèm sẵn preset nào** (mục Presets trống) — không phải lỗi máy: preset do người dùng cộng đồng tạo, upstream chỉ tổng hợp link tại [Community presets wiki](https://github.com/wwmm/easyeffects/wiki/Community-presets) (README upstream cũng trỏ đúng vào wiki này).
@@ -210,7 +211,7 @@ Nguồn tham khảo plugin Cursor:
 ### Qt app mở từ browser bị hỏng theme
 - **Sự cố**: Mở Dolphin (hoặc Qt app khác) từ Helium/Chrome qua "download → truy cập thư mục", Dolphin hiện theme mặc định/fusion thay vì Noctalia.
 - **Nguyên nhân**: Dolphin có background daemon (`plasma-dolphin.service`) do systemd user quản lý. Hệ thống `~/.config/environment.d/` **không được systemd đọc** vì MangoWM start sau khi systemd user instance đã chạy. Khi browser gọi DBus mở Dolphin, daemon thiếu `QT_QPA_PLATFORMTHEME` → render theme sai.
-- **Cách sửa**: Đã fix bằng `exec-once = systemctl --user import-environment` trong `autostart.conf` (chezmoi sync). Lệnh này push env vars của MangoWM (bao gồm `QT_QPA_PLATFORMTHEME` từ `env.conf`) vào systemd user session mỗi lần login.
+- **Cách sửa**: Đã fix bằng `exec_once = systemctl --user import-environment` trong `autostart.conf` (chezmoi sync). Lệnh này push env vars của MangoWM (bao gồm `QT_QPA_PLATFORMTHEME` từ `env.conf`) vào systemd user session mỗi lần login.
 - **Quick fix** (session hiện tại):
   ```bash
   systemctl --user import-environment QT_QPA_PLATFORMTHEME QT_QPA_PLATFORMTHEME_QT6
@@ -257,7 +258,7 @@ Nguồn tham khảo plugin Cursor:
      session optional pam_gnome_keyring.so auto_start
      EOF
      ```
-  3. Mango `autostart.conf` (chezmoi sync): `exec-once = gnome-keyring-daemon --start --components=secrets,ssh,pkcs11 &` để daemon chạy ngay cả khi socket chưa trigger.
+  3. Mango `autostart.conf` (chezmoi sync): `exec_once = gnome-keyring-daemon --start --components=secrets,ssh,pkcs11 &` để daemon chạy ngay cả khi socket chưa trigger.
   4. Mật khẩu keyring `~/.local/share/keyrings/Default.keyring` phải trùng mật login; nếu lệch thì `rm` file đó cho tạo lại ở login tới, rồi mở Helium login lại 1 lần cuối để mã hóa lại cookie.
 - **Verify**: `dbus-send ... ListNames | grep secrets` thấy `org.freedesktop.secrets`; `Local State` có `os_crypt.encrypted_key`; reboot không mất login nữa.
 - Chi tiết: [ADR-0004](docs/adr/0004-helium-gnome-keyring-auto-unlock.md), thuật ngữ `Secret Service / gnome-keyring / os_crypt` trong [CONTEXT.md](CONTEXT.md).
@@ -273,7 +274,7 @@ Nguồn tham khảo plugin Cursor:
 
 ### Icon fcitx5 biến mất khỏi tray (vẫn gõ được)
 - **Sự cố**: Khay `tray` trên bar không còn icon bàn phím fcitx5, nhưng `Alt+Space` vẫn chuyển được `keyboard-us`/`lotus`.
-- **Nguyên nhân**: Race lúc login — `fcitx5 -d` (mango `exec-once`) chạy trước khi Noctalia đăng ký `StatusNotifierWatcher`, module `notificationitem` (OnDemand) không đăng ký item. `fcitx5-remote -r` (reload config) không đủ để kích lại.
+- **Nguyên nhân**: Race lúc login — `fcitx5 -d` (mango `exec_once`) chạy trước khi Noctalia đăng ký `StatusNotifierWatcher`, module `notificationitem` (OnDemand) không đăng ký item. `fcitx5-remote -r` (reload config) không đủ để kích lại.
 - **Cách sửa** (restart process, ~2s mất gõ):
   ```bash
   fcitx5-remote -e; sleep 1; fcitx5 -d
