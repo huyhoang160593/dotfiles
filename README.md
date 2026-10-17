@@ -304,6 +304,25 @@ Nguồn tham khảo plugin Cursor:
 - **Sync**: file đã vào chezmoi dạng template (`homeDir` cho `color_scheme_path`, lược `[SettingsWindow]` geometry để khỏi nhiễu `chezmoi status`). Đổi sang light mode thì sửa ngược lại thành `breeze`.
 - **Nguồn tham khảo**: [GTK and Qt Applications template](https://docs.noctalia.dev/noctalia/templates/official/gtk-qt/) (template `qt` chỉ render file màu `colors/noctalia.conf` — `qt6ct.conf` như `icon_theme` nằm ngoài phạm vi nó quản lý)
 
+### Noctalia thấy notification nhưng không có tiếng
+
+- **Sự cố**: Toast hiện bình thường nhưng không phát âm thanh.
+- **Nguyên nhân**: Noctalia có toggle tổng `enable_sounds` (master cho mọi UI sound, gồm tiếng notification). Config mặc định không có section `[audio]` → `enable_sounds = false` → tắt toàn bộ tiếng, dù `enable_notification_sounds = true` và sound theme đã load. Ngoài ra `sound_volume = 0.5` quá nhỏ trên phần cứng này (hardware gain ~0.16) nên gần như không nghe thấy.
+- **Cách sửa** (đã apply trong `dot_config/noctalia/config.toml`):
+  ```toml
+  [audio]
+  enable_overdrive = false
+  enable_sounds = true
+  enable_volume_sounds = true
+  enable_notification_sounds = true
+  enable_power_sounds = true
+  enable_screenshot_sounds = true
+  sound_volume = 1.0
+  sound_theme = "freedesktop"
+  ```
+- **Verify**: `noctalia config export | sed -n '/^\[audio\]/,/^\[/p'` thấy `enable_sounds = true`; gọi `notify-send "test" "sound"` sẽ nghe tiếng.
+- **Nguồn tham khảo**: [Audio services](https://docs.noctalia.dev/noctalia/services/audio), [Notifications services](https://docs.noctalia.dev/noctalia/services/notifications) (`play_sound` mặc định `true`).
+
 ---
 
 ## Biến môi trường (mangowm env.conf)
