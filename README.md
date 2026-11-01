@@ -42,8 +42,8 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
 
 **Secrets — `~/.ante/auth`** (đã ignore trong `.chezmoiignore.tmpl`):
 - Thư mục này **không sync** qua chezmoi — mỗi máy tự tạo riêng
-- Chứa `api_keys.json` lưu API key để Ante gọi AI provider (OpenAI, Anthropic...)
-- Format: `{ "openai": "sk-...", "anthropic": "sk-ant-..." }`
+- Từ Ante v0.3: credential nằm trong `auth/credentials/` (mỗi provider một file JSON) — quản lý bằng `ante auth login <provider>`, `ante auth list`, `ante auth logout <provider>`
+- Format cũ `api_keys.json` (`{ "openai": "sk-..." }`) đã bị loại bỏ từ v0.3 — **đừng tạo lại file này**
 
 **Secrets — `~/.config/opencode/service.json`** (không đưa vào chezmoi source):
 - File này **không sync** — mỗi máy giữ riêng
@@ -133,7 +133,7 @@ Nguồn tham khảo plugin Cursor:
 | Âm thanh | EasyEffects | Chỉnh âm loa laptop: EQ/compressor cho âm to, rõ hơn (PipeWire) | Autostart service-mode + preset cộng đồng — xem 2 mục EasyEffects bên dưới |
 | Greeter | Noctalia Greeter | Màn hình đăng nhập (không dùng SDDM) | |
 | Dashboard TUI | Fresh | Dashboard terminal | |
-| Quản lý session | Tuios | Terminal window manager: tiling, workspace, session daemon (detach vẫn chạy, multi-client) | Config `~/.config/tuios/config.toml` chezmoi sync |
+| Quản lý session | Tuios | Terminal window manager: tiling, workspace, session daemon (detach vẫn chạy, multi-client) | Config `~/.config/tuios/config.toml` chezmoi sync; agent alert cho Ante — xem mục "Tuios — báo trạng thái agent" |
 | AI | Ante, OpenCode, Bladebro | Ante lightweight; OpenCode là terminal agent; Bladebro là browser cho AI agent (MCP 5 tools) | Bladebro cài bằng `npm install -g bladebro`, lái Helium qua `CHROME_PATH`; MCP `opencode.json` do chezmoi sync (template `lookPath`, máy không có Helium thì bỏ block env) |
 | Quản lý AppImage | AppManager | Cài đặt và quản lý AppImage | Dùng `appimage_update_icon` để sửa icon |
 | Quản lý runtime | mise | Quản lý phiên bản runtime (node, python, go...) theo project | Activate trong `config.fish` có guard `type -q` — xem mục mise bên dưới |
@@ -154,6 +154,40 @@ Nguồn tham khảo plugin Cursor:
   ```
 - **Kiểm tra**: `mise -v` hoặc chạy `check_tools` (mise nằm trong danh sách tool bắt buộc).
 - **Lưu ý**: `mise activate` chỉ hiệu lực trong shell interactive; script non-interactive cần dùng `mise exec --` hoặc shims (`mise activate fish --shims`).
+
+### Tuios — báo trạng thái agent (Ante OSC 7501)
+
+Ante ≥ 0.3.1 phát trạng thái turn (running/waiting/done/failed) ra terminal bằng **OSC 7501** (Program Status Protocol), kể cả trong tmux. tuios tự parse tín hiệu này từ bất kỳ program nào — nguồn `program`, không cần integration/hook:
+
+| Ante phát | tuios hiểu thành |
+|---|---|
+| running | `working` |
+| waiting (approval) | `needs_input` + `blocked_by=approval` |
+| waiting (question/AskUser) | `needs_input` + `blocked_by=question` |
+| done / failed | `done` / `errored` |
+
+Đã probe xác minh thật (poller state 1s, 2026-11-01). Hệ quả: agents view (`ctrl+b i`) hiện pane Ante trong nhóm "Needs you" tự động, còn alert (dock + sound + desktop notification) được cấu hình trong chezmoi sync:
+
+```toml
+# ~/.config/tuios/config.toml
+[notifications.agent]
+suppress_focused = false   # Ante gần như luôn là pane đang focus — không được nuốt alert
+sound = true
+sound_mode = 'both'        # audio cue + BEL
+```
+
+**Giới hạn của OSC 7501**: Ante không có manifest trong tuios → row agents view không có text câu hỏi, approval không trả lời được từ Inbox (phải ra đúng pane). Để có chữ thật, hook `after-agent-state` gửi mail cho `human` (overlay `prefix M`), đọc prompt từ screen pane bằng `capture-pane`:
+
+```
+[hooks]
+after-agent-state = ["~/.config/tuios/hooks/agent-state-mail.sh"]
+```
+
+Hook chỉ mail khi state giữ ổn định ≥2s (chống flap khi approve nhanh), không bao giờ làm daemon fail.
+
+**Cảnh báo**:
+- Hook chạy daemon chỉ ăn hiệu lực sau `tuios restart-server`, mà restart **kết thúc mọi program trong mọi pane**. Ante không có manifest `[resume]` trong tuios → session Ante chết theo (opencode/claude-code thì resume được). Chọn thời điểm restart khi rảnh.
+- Mail ring của tuios không bền — restart daemon là mail cũ biến mất.
 
 ---
 
