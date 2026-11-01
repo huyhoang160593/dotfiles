@@ -206,8 +206,14 @@ warning_duration = 0
 error_duration = 0
 
 [notifications.agent]
+# Ante is almost always the pane being looked at — never swallow its alerts.
+# Ante reports turn status via OSC 7501 (running/waiting/done/failed); tuios
+# reads it natively as source=program (no harness integration needed). Probed
+# 2026-11-01: working, needs_input/approval, needs_input/question all map
+# correctly, so Inbox/ask-agent are safe on Ante panes.
+suppress_focused = false
 sound = true
-sound_mode = ''
+sound_mode = 'both'
 command = ''
 quiet_hours = ''
 
@@ -643,3 +649,11 @@ corner = 'bottom-right'
 
 [dock]
 [dock.clock]
+
+# Mail the person (prefix M) on alert-state changes. Ante's OSC 7501 rows
+# carry no text; the hook adds it. Daemon-run: needs `tuios restart-server`.
+[hooks]
+after-agent-state = ["~/.config/tuios/hooks/agent-state-mail.sh"]
+
+[agents]
+enabled = true
