@@ -19,7 +19,6 @@ SYNCED = {
     "include_skills": None,
     "exclude_skills": None,
     "session_save": None,
-    "permission_mode": None,
     "short_prompt": None,
     "max_concurrent_subagents": None,
     "theme": "Dark mode",
@@ -38,10 +37,11 @@ SYNCED = {
 
 # Per-machine fields — preserved if present, default if missing
 LOCAL = {
-    "model": "mimo-v2.5",
-    "provider": "xiaomi-mimo",
-    "model_effort": {"mimo-v2.5": "high"},
-    "provider_model": {"xiaomi-mimo": "mimo-v2.5"},
+    "model": "mimo-v2.6-flash",
+    "provider": "opencode-go",
+    "permission_mode": "auto",
+    "model_effort": {"mimo-v2.6-flash": "medium"},
+    "provider_model": {"opencode-go": "mimo-v2.6-flash"},
 }
 
 try:
@@ -59,6 +59,8 @@ for key, default in LOCAL.items():
 
 # openrouter is unused — never keep its last-model entry
 result["provider_model"].pop("openrouter", None)
+# xiaomi-mimo dropped from the catalog (2026-11-01) — same treatment
+result["provider_model"].pop("xiaomi-mimo", None)
 
 json.dump(result, sys.stdout, indent=2, ensure_ascii=False)
 sys.stdout.write("\n")

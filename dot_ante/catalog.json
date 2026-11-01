@@ -1,116 +1,342 @@
 {
   "providers": {
-    "xiaomi-mimo": {
-      "display_name": "Xiaomi MiMo (Pay-as-you-go)",
-      "base_url": "https://api.xiaomimimo.com/v1",
+    "opencode-go": {
+      "display_name": "OpenCode Go",
+      "base_url": "https://opencode.ai/inference/go/openai/v1",
       "wire_style": "OpenAiCompatible",
-      "auth": {
-        "bearer": {
-          "env_key": "MIMO_API_KEY"
-        }
+      "headers": {
+        "x-opencode-session": "${session_id}"
       },
       "preferred_models": [
         {
-          "id": "mimo-v2.6-pro",
-          "description": "MiMo V2.6 Pro — latest reasoning model with vision",
+          "id": "deepseek-v4.1-flash",
+          "description": "DeepSeek V4.1 Flash",
+          "context_limit": 1000000,
+          "max_tokens": 384000,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "high",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "deepseek-v4-pro",
+          "description": "DeepSeek V4 Pro (New)",
+          "context_limit": 1000000,
+          "max_tokens": 384000,
+          "support_vision": false,
+          "supported_efforts": [
+            "high",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "glm-5.2",
+          "description": "GLM-5.2",
+          "context_limit": 1000000,
+          "max_tokens": 131072,
+          "support_vision": false,
+          "supported_efforts": [
+            "high",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "glm-5.3",
+          "description": "GLM-5.3",
+          "context_limit": 1000000,
+          "max_tokens": 131072,
+          "support_vision": false,
+          "supported_efforts": [
+            "low",
+            "high",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "grok-4.7",
+          "description": "Grok 4.7",
+          "context_limit": 500000,
+          "max_tokens": 499999,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "effort": "xhigh"
+        },
+        {
+          "id": "muse-spark-1.2-contributor",
+          "description": "Muse Spark 1.2 Contributor",
           "context_limit": 1048576,
           "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": true,
+          "supported_efforts": [
+            "min",
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "effort": "xhigh"
+        },
+        {
+          "id": "muse-spark-1.3-contributor",
+          "description": "Muse Spark 1.3 Contributor",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "support_vision": true,
+          "supported_efforts": [
+            "min",
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "effort": "xhigh"
+        },
+        {
+          "id": "glm-5.3-flash",
+          "description": "GLM-5.3-Flash",
+          "context_limit": 1000000,
+          "max_tokens": 131072,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "high",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "gpt-5.6-luna",
+          "description": "GPT-5.6 Luna",
+          "context_limit": 1050000,
+          "max_tokens": 128000,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "gpt-6-luna",
+          "description": "GPT-6 Luna",
+          "context_limit": 1050000,
+          "max_tokens": 128000,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "claude-haiku-5-5",
+          "description": "Claude Haiku 5.5",
+          "context_limit": 1000000,
+          "max_tokens": 128000,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "hy3",
+          "description": "Hy3",
+          "context_limit": 256000,
+          "max_tokens": 128000,
+          "support_vision": false,
+          "supported_efforts": [
+            "low",
+            "high"
+          ],
+          "effort": "high"
+        },
+        {
+          "id": "hy4-preview",
+          "description": "Hy4 preview",
+          "context_limit": 1024000,
+          "max_tokens": 64000,
+          "support_vision": false,
+          "supported_efforts": [
+            "high"
+          ],
+          "effort": "high"
+        },
+        {
+          "id": "kimi-k2.7-code",
+          "description": "Kimi K2.7 Code",
+          "context_limit": 262144,
+          "max_tokens": 262143,
           "support_vision": true
         },
         {
-          "id": "mimo-v2.6-pro-ultraspeed",
-          "description": "MiMo V2.6 Pro UltraSpeed — fast reasoning model with vision",
+          "id": "kimi-k3",
+          "description": "Kimi K3",
           "context_limit": 1048576,
           "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high"],
-          "support_vision": true
+          "support_vision": true,
+          "supported_efforts": [
+            "max"
+          ],
+          "effort": "max"
         },
         {
           "id": "mimo-v2.6-flash",
-          "description": "MiMo V2.6 Flash — lightweight fast model",
+          "description": "MiMo-V2.6-Flash",
           "context_limit": 1048576,
           "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high"],
           "support_vision": true
         },
-        {
-          "id": "mimo-v2.5-pro",
-          "description": "MiMo V2.5 Pro — reasoning model with vision",
-          "context_limit": 1048576,
-          "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high", "max"],
-          "support_vision": true
-        },
-        {
-          "id": "mimo-v2.5",
-          "description": "MiMo V2.5 Omni — multimodal model with vision",
-          "context_limit": 1048576,
-          "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high"],
-          "support_vision": true
-        }
-      ]
-    },
-    "xiaomi-mimo-token-plan": {
-      "display_name": "Xiaomi MiMo (Token Plan)",
-      "base_url": "https://token-plan-cn.xiaomimimo.com/v1",
-      "wire_style": "OpenAiCompatible",
-      "auth": {
-        "bearer": {
-          "env_key": "MIMO_TOKEN_PLAN_API_KEY"
-        }
-      },
-      "preferred_models": [
         {
           "id": "mimo-v2.6-pro",
-          "description": "MiMo V2.6 Pro — latest reasoning model with vision",
+          "description": "MiMo-V2.6-Pro",
           "context_limit": 1048576,
           "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high"],
           "support_vision": true
         },
         {
-          "id": "mimo-v2.6-pro-ultraspeed",
-          "description": "MiMo V2.6 Pro UltraSpeed — fast reasoning model with vision",
-          "context_limit": 1048576,
+          "id": "minimax-m3",
+          "description": "MiniMax-M3",
+          "context_limit": 1000000,
           "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high"],
           "support_vision": true
         },
         {
-          "id": "mimo-v2.6-flash",
-          "description": "MiMo V2.6 Flash — lightweight fast model",
+          "id": "minimax-m3.1-flash",
+          "description": "MiniMax M3.1 Flash",
+          "context_limit": 1000000,
+          "max_tokens": 512000,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "longcat-2.0",
+          "description": "LongCat-2.0",
+          "context_limit": 1000000,
+          "max_tokens": 131072,
+          "support_vision": false
+        },
+        {
+          "id": "step-5-preview",
+          "description": "Step 5 Preview",
+          "context_limit": 1000000,
+          "max_tokens": 65536,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "effort": "high"
+        },
+        {
+          "id": "beam-free",
+          "description": "Beam Free",
           "context_limit": 1048576,
           "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high"],
+          "support_vision": false,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "qwen3.8-max",
+          "description": "Qwen3.8 Max",
+          "context_limit": 1000000,
+          "max_tokens": 131072,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "xhigh"
+          ],
+          "effort": "xhigh"
+        },
+        {
+          "id": "qwen3.8-flash",
+          "description": "Qwen3.8 Flash",
+          "context_limit": 1000000,
+          "max_tokens": 131072,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "xhigh"
+          ],
+          "effort": "xhigh"
+        },
+        {
+          "id": "qwen3.7-plus",
+          "description": "Qwen3.7 Plus",
+          "context_limit": 1000000,
+          "max_tokens": 65536,
           "support_vision": true
         },
         {
-          "id": "mimo-v2.5-pro",
-          "description": "MiMo V2.5 Pro — reasoning model with vision",
+          "id": "kimi-k3.1-pro",
+          "description": "Kimi K3.1 Pro",
           "context_limit": 1048576,
           "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high", "max"],
-          "support_vision": true
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "high",
+            "max"
+          ],
+          "effort": "max"
         },
         {
-          "id": "mimo-v2.5",
-          "description": "MiMo V2.5 Omni — multimodal model with vision",
-          "context_limit": 1048576,
+          "id": "iceman-contributor-free",
+          "description": "Iceman Contributor Free",
+          "context_limit": 262144,
           "max_tokens": 131072,
-          "effort": "high",
-          "supported_efforts": ["low", "medium", "high"],
-          "support_vision": true
+          "support_vision": false
+        },
+        {
+          "id": "gemini-4-argon",
+          "description": "Gemini 4 Argon",
+          "context_limit": 1048576,
+          "max_tokens": 65536,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "effort": "high"
         }
       ]
     }
