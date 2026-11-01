@@ -4,5 +4,8 @@
     "show_hidden": true,
     "show_gitignored": true
   },
-  "orchestrator_mode": false
+  "orchestrator_mode": false,
+  "file_browser": {
+    "show_hidden": true
+  }
 }

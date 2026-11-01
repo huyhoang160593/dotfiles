@@ -17,5 +17,8 @@
     "notifications": true,
     "sound": true,
     "volume": 0.4
+  },
+  "prompt": {
+    "image_preview": true
   }
 }
