@@ -29,20 +29,52 @@ SYNCED = {
     "group_tool_activity": None,
     "auto_compact": None,
     "channel": None,
-    "render_mode": "inline",
+    "render_mode": "fullscreen",
     "status_line": None,
     "status_line_command": {"command": "~/.ante/statusline.sh", "padding": 1},
-    "mcp_servers": {"bladebro": {"command": "bladebro", "args": ["mcp"]}},
+    "mcp_servers": {"bladebro": {"command": "bladebro", "args": ["mcp"], "env": {}, "enabled_tools": []}},
 }
 
 # Per-machine fields — preserved if present, default if missing
 LOCAL = {
-    "model": "mimo-v2.6-flash",
+    "model": "beam-free",
     "provider": "opencode-go",
     "permission_mode": "auto",
-    "model_effort": {"mimo-v2.6-flash": "medium"},
-    "provider_model": {"opencode-go": "mimo-v2.6-flash"},
+    "model_effort": {"mimo-v2.6-flash": "medium", "beam-free": "medium"},
+    "provider_model": {"opencode-go": "beam-free", "opencode": "inkling-2-small-free"},
 }
+
+# Emission order matching ante's own serialization of settings.json,
+# so `chezmoi diff` is clean when live and source agree
+ORDER = [
+    "model",
+    "provider",
+    "system_prompt",
+    "append_system_prompt",
+    "tools",
+    "auto_memory",
+    "skills",
+    "include_skills",
+    "exclude_skills",
+    "session_save",
+    "permission_mode",
+    "short_prompt",
+    "max_concurrent_subagents",
+    "model_effort",
+    "mcp_servers",
+    "theme",
+    "has_completed_onboarding",
+    "ambient_thinking_phrase",
+    "ambient_prompt_suggestion",
+    "tips",
+    "group_tool_activity",
+    "auto_compact",
+    "channel",
+    "render_mode",
+    "status_line",
+    "status_line_command",
+    "provider_model",
+]
 
 try:
     data = json.load(sys.stdin)
@@ -61,6 +93,8 @@ for key, default in LOCAL.items():
 result["provider_model"].pop("openrouter", None)
 # xiaomi-mimo dropped from the catalog (2026-11-01) — same treatment
 result["provider_model"].pop("xiaomi-mimo", None)
+
+result = {key: result[key] for key in ORDER if key in result}
 
 json.dump(result, sys.stdout, indent=2, ensure_ascii=False)
 sys.stdout.write("\n")

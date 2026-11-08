@@ -1,5 +1,136 @@
 {
   "providers": {
+    "opencode": {
+      "display_name": "OpenCode",
+      "base_url": "https://opencode.ai/inference/openai/v1",
+      "wire_style": "OpenAiCompatible",
+      "preferred_models": [
+        {
+          "id": "beam-free",
+          "description": "Beam Free",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "support_vision": false,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "flint-40b-free",
+          "description": "Flint 40B Free",
+          "context_limit": 262144,
+          "max_tokens": 65536,
+          "support_vision": false,
+          "supported_efforts": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "mimo-v2.6-flash-free",
+          "description": "MiMo-V2.6-Flash Free",
+          "context_limit": 200000,
+          "max_tokens": 32000,
+          "support_vision": true
+        },
+        {
+          "id": "nemotron-3.5-super-vl-free",
+          "description": "Nemotron 3.5 Super VL Free",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "support_vision": true,
+          "supported_efforts": [
+            "min",
+            "low",
+            "medium",
+            "high",
+            "xhigh"
+          ],
+          "effort": "min"
+        },
+        {
+          "id": "nemotron-3.5-lightning-free",
+          "description": "Nemotron 3.5 Lightning Free",
+          "context_limit": 262144,
+          "max_tokens": 262143,
+          "support_vision": false
+        },
+        {
+          "id": "deepseek-v4.1-flash-free",
+          "description": "DeepSeek V4.1 Flash Free",
+          "context_limit": 200000,
+          "max_tokens": 32000,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "high",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "glm-5.3-flash-free",
+          "description": "GLM-5.3-Flash Free",
+          "context_limit": 200000,
+          "max_tokens": 32000,
+          "support_vision": true,
+          "supported_efforts": [
+            "low",
+            "high",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "crouton-alpha-free",
+          "description": "Crouton Alpha Free",
+          "context_limit": 1048576,
+          "max_tokens": 270000,
+          "support_vision": true,
+          "supported_efforts": [
+            "min",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "effort": "max"
+        },
+        {
+          "id": "iceman-free",
+          "description": "Iceman Free",
+          "context_limit": 262144,
+          "max_tokens": 131072,
+          "support_vision": false
+        },
+        {
+          "id": "inkling-2-small-free",
+          "description": "Inkling 2 Small Free",
+          "context_limit": 1048576,
+          "max_tokens": 131072,
+          "support_vision": true,
+          "supported_efforts": [
+            "min",
+            "low",
+            "medium",
+            "high",
+            "max"
+          ],
+          "effort": "max"
+        }
+      ],
+      "credential": "secret:opencode-go"
+    },
     "opencode-go": {
       "display_name": "OpenCode Go",
       "base_url": "https://opencode.ai/inference/go/openai/v1",
@@ -337,6 +468,33 @@
             "high"
           ],
           "effort": "high"
+        },
+        {
+          "id": "hy4",
+          "description": "Hy4",
+          "context_limit": 1048576,
+          "max_tokens": 65536,
+          "support_vision": true,
+          "supported_efforts": [
+            "high"
+          ],
+          "effort": "high"
+        },
+        {
+          "id": "crouton-alpha-free",
+          "description": "Crouton Alpha Free",
+          "context_limit": 1048576,
+          "max_tokens": 270000,
+          "support_vision": true,
+          "supported_efforts": [
+            "min",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ],
+          "effort": "max"
         }
       ]
     }
