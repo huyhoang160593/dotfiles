@@ -9,7 +9,8 @@
         ]{{- $helium := lookPath "helium" }}{{- if $helium }},
         "environment": {
           "CHROME_PATH": "{{ $helium }}"
-        }{{- end }}
+        }{{- end }},
+        "disabled": true
       }
     }
   }

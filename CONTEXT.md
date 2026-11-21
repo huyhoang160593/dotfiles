@@ -57,6 +57,18 @@ Emulator terminal tăng tốc GPU (thay thế Alacritty). Cấu hình tối gi�
 Trình duyệt dựa trên Chromium (thay thế Firefox). Chạy dạng AppImage quản lý bởi AppManager. Mã hóa cookie/password qua `os_crypt`, bắt buộc cần Secret Service đang chạy; không có thì reboot là phải login lại dù profile còn nguyên.
 _Avoid_: "helium browser chung chung khi đang nói profile `net.imput.helium`"
 
+**Default browser (MIME default)**:
+Desktop entry được `~/.config/mimeapps.list` gán cho `x-scheme-handler/http`, `https` và `text/html`; là nguồn truth khi `xdg-open` mở link. _Avoid_: "trình duyệt chính", "biến BROWSER"
+
+**Biến `BROWSER`**:
+Env var mà xdg-utils chỉ dùng làm fallback khi MIME default không hợp lệ; `xdg-settings` lại ưu tiên nó đến mức chặn lệnh `set`. Không dùng để chọn trình duyệt mặc định. _Avoid_: "default browser"
+
+**Desktop entry**:
+File `.desktop` khai báo `Exec`/`MimeType`, định danh bằng desktop ID (vd `helium-browser.desktop`). Với xdg-utils, token đầu của `Exec` phải không có dấu nháy khi path không chứa dấu cách, nếu không entry bị loại. _Avoid_: "file .desktop" khi đang nói desktop ID
+
+**xdg-utils**:
+Bộ script `xdg-open`, `xdg-mime`, `xdg-settings` xử lý link và MIME khi không có handler riêng của desktop (trên mangowm chạy generic). _Avoid_: nhầm với `xdg-desktop-portal`
+
 **Secret Service**:
 API D-Bus `org.freedesktop.secrets` để app lưu secret mã hóa. Chỉ một provider giữ tên này tại một thời điểm.
 _Avoid_: "keyring chung chung"

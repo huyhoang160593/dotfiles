@@ -65,7 +65,7 @@ Các file chezmoi (`.chezmoiignore`, `.chezmoiignore.tmpl`) đều được xử
 ### Window Manager: mangowm
 - **Đã chọn**: mangowm
 - **Đã bỏ chọn**: ❌ SDDM (login manager) — dùng Noctalia Greeter thay thế để đồng bộ giao diện
-- **Env vars**: QT_QPA_PLATFORMTHEME, QT_QPA_PLATFORMTHEME_QT6, PATH, BROWSER — đã cấu hình sẵn trong `~/.config/mango/cfg/env.conf` (chezmoi sync). Một số env (như `BROWSER`) cần set ở cả env.conf lẫn `config.fish` — xem mục "Biến môi trường" bên dưới.
+- **Env vars**: QT_QPA_PLATFORMTHEME, QT_QPA_PLATFORMTHEME_QT6, PATH — đã cấu hình sẵn trong `~/.config/mango/cfg/env.conf` (chezmoi sync). Trình duyệt mặc định dùng MIME default, không dùng biến `BROWSER` — xem mục "Trình duyệt mặc định" bên dưới.
 - **Tên key config**: mango 0.18.0 đổi tên hàng loạt key sang snake_case (`exec-once`→`exec_once`, `windowrule`→`window_rule`, `gappih`→`gap_inner_horizontal`, ...). Config trong repo đã migrate; máy mới cài lại không cần làm gì. Kiểm tra bằng `check_mango_config`; chi tiết breaking change: [docs/research/mango-0.18-config-key-rename.md](docs/research/mango-0.18-config-key-rename.md).
 
 ### Autostart khi login (mango autostart.conf)
@@ -365,29 +365,24 @@ Tất cả env vars được quản lý tại `~/.config/mango/cfg/env.conf` (ch
 env = QT_QPA_PLATFORMTHEME,qt6ct
 env = QT_QPA_PLATFORMTHEME_QT6,qt6ct
 env = PATH,~/.local/bin:~/.ante/bin:/usr/local/bin:/usr/bin
-env = BROWSER,helium
 env = GSETTINGS_BACKEND,dconf
 ```
 > **Lưu ý**: mangowm mở rộng `~` nhưng **không** mở rộng `$HOME`.
 
-### Env cần set ở CẢ HAI nơi: mangowm session lẫn fish
-Một số env vars quyết định cách **mở ứng dụng/link** (ví dụ `BROWSER`) nên được set ở cả `~/.config/mango/cfg/env.conf` **và** `~/.config/fish/config.fish`, vì hai môi trường này không thừa hưởng env của nhau:
+Sau khi sửa env.conf cần **đăng xuất/đăng nhập lại** session (env chỉ nạp lúc compositor khởi động).
 
-- Chỉ set trong **fish** (`set -gx BROWSER helium`): biến chỉ có hiệu lực trong terminal — GUI apps do compositor spawn (Noctalia, launcher...) **không nhận được** → `xdg-open` fallback sang parse file `.desktop`, dễ fail âm thầm (vd: nút mở link trong Settings → Plugins của Noctalia không có phản hồi).
-- Chỉ set trong **env.conf**: TTY/greeter session (không đi qua mangowm) không nhận được.
+---
 
-```
-# ~/.config/mango/cfg/env.conf (chezmoi sync)
-env = BROWSER,helium
-```
-```fish
-# ~/.config/fish/config.fish (chezmoi sync)
-set -gx BROWSER helium
-```
+## Trình duyệt mặc định
+Helium là default cho `http`, `https` và `text/html` qua **MIME default**, không qua biến `BROWSER`.
 
-Sau khi sửa env.conf cần **đăng xuất/đăng nhập lại** session (env chỉ nạp lúc compositor khởi động); sửa config.fish thì `exec fish` là đủ.
+- `~/.local/share/applications/helium-browser.desktop` (chezmoi owns) dùng `Exec=helium %U` — hợp lệ với xdg-utils, portable mọi username. Không dùng `helium.desktop` của AppManager: file đó có `Exec` bị nháy nên xdg-utils loại entry ([kem-a/AppManager#237](https://github.com/kem-a/AppManager/issues/237)).
+- Script `run_once_set-helium-default-browser.sh` ghi 3 key vào `~/.config/mimeapps.list` **một lần** lúc `chezmoi apply` đầu tiên. Không chạy mỗi login, không chiếm quyền các association của app khác.
+- Không set `BROWSER`: biến này làm `xdg-settings get` trả desktop entry của Gemini PWA và chặn `xdg-settings set`.
 
-> Chi tiết case này: [docs/research/noctalia-plugin-link-opening.md](docs/research/noctalia-plugin-link-opening.md)
+Verify: `xdg-mime query default x-scheme-handler/https` và `env -u BROWSER xdg-settings get default-web-browser` phải trả `helium-browser.desktop`.
+
+> Chi tiết: [docs/research/noctalia-plugin-link-opening.md](docs/research/noctalia-plugin-link-opening.md) · [ADR-0005](docs/adr/0005-khong-dung-bien-BROWSER.md)
 
 ---
 

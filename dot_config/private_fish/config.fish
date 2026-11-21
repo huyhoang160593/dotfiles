@@ -3,7 +3,6 @@ fish_add_path -g ~/.local/bin
 fish_add_path -g ~/.ante/bin
 fish_add_path -g ~/.opencode/bin
 # ── Environment ───────────────────────────────────────────────
-set -gx BROWSER helium
 # Ghostty AppImage set GSETTINGS_BACKEND=keyfile (file .env trong bundle),
 # ghi đè về dconf để portal/GTK thấy giá trị của `gsettings set`
 set -gx GSETTINGS_BACKEND dconf
